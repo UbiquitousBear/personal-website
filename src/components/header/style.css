@@ -1,0 +1,54 @@
+.header {
+	position: fixed;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 56px;
+	padding: 0;
+	background: #ffffff;
+	z-index: 50;
+	border-bottom: 1px solid #e7e7e7;
+}
+
+.header h1 {
+	float: left;
+	margin: 0;
+	padding: 0 15px;
+	font-size: 24px;
+	line-height: 56px;
+	font-weight: 800;
+	font-size: 20px;
+	color: #444F64;
+}
+
+.header nav {
+	float: right;
+	font-size: 100%;
+}
+
+.header nav a {
+	display: inline-block;
+	height: 56px;
+	line-height: 56px;
+	padding: 0 15px;
+	min-width: 50px;
+	text-align: center;
+	text-decoration: none;
+	color: #444F64;
+}
+
+.header nav a:hover,
+.header nav a:active {
+	-moz-transition: all .25s ease-in-out;
+	-webkit-transition: all .25s ease-in-out;
+	-o-transition: all .25s ease-in-out;
+	-ms-transition: all .25s ease-in-out;
+	transition: all .25s ease-in-out;
+	color: #000 !important;
+	background-color: #ffffff;
+}
+
+.header nav a.active {
+	background-color: #ffffff;
+	border-bottom: 3px solid #444F64;
+}
