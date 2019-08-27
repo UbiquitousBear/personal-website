@@ -1,0 +1,95 @@
+stages:
+#   - test
+  - build
+  - release
+  - deploy
+
+variables:
+  IMAGE_NAME: registry.runway.sh/shamil/personal-website
+  IMAGE_TAG: ${CI_COMMIT_SHA}
+
+.cache: &cache
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - node_modules/
+
+.npm: &npm
+  image:
+    name: node:10.16.3-alpine
+  before_script:
+    - apk add --no-cache make git openssh-client
+    - mkdir -p ~/.ssh
+    - ssh-keyscan -H -t rsa github.com >> ~/.ssh/known_hosts
+    - cp ${GITLAB_SHARED_SSH_KEY} ~/.ssh/id_rsa && chmod 400 ~/.ssh/id_rsa
+    - npm install
+
+##
+## TEST
+##
+
+# test:
+#   <<: *npm
+#   stage: test
+#   cache:
+#     <<: *cache
+#   script:
+#     - make test
+
+##
+## BUILD
+##
+
+build:
+  <<: *npm
+  stage: build
+  artifacts:
+    name: ${CI_JOB_STAGE}
+    paths:
+      - build/
+  cache:
+    <<: *cache
+    policy: pull
+  script:
+    - npm run build-no-prerender
+
+##
+## RELEASE
+##
+
+release:
+  stage: release
+  # only: [ master ]
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+  dependencies:
+    - build
+  script:
+    - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
+    - cp release/* build/
+    - /kaniko/executor
+      --cache=true
+      --context ${CI_PROJECT_DIR}
+      --dockerfile ${CI_PROJECT_DIR}/release/Dockerfile
+      --destination ${IMAGE_NAME}:${IMAGE_TAG}
+      --destination ${IMAGE_NAME}:latest
+
+deploy:
+  stage: deploy
+  image: dtzar/helm-kubectl
+  script:
+    - kubectl config set-cluster k8s --server="${SERVER}"
+    - kubectl config set clusters.k8s.certificate-authority-data ${CERTIFICATE_AUTHORITY_DATA}
+    - kubectl config set-credentials gitlab --token="${USER_TOKEN}"
+    - kubectl config set-context default --cluster=k8s --user=gitlab
+    - kubectl config use-context default
+    - kubectl create secret --namespace=$KUBERNETES_NAMESPACE
+                      docker-registry gitlab-registry
+                      --docker-server=$CI_REGISTRY
+                      --docker-username=kubernetes
+                      --docker-password=$REGISTRY_TOKEN
+                      --docker-email=$GITLAB_USER_EMAIL
+                      --output yaml
+                      --dry-run | kubectl apply -n $KUBERNETES_NAMESPACE -f -
+    - sed -i "s/<VERSION>/${IMAGE_TAG}/g" deployment.yaml
+    - kubectl apply -f deployment.yaml
+
