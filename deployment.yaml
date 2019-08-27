@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: personal-website
+  namespace: shamil
+  labels:
+    app: shamilweb
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: shamilweb
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 33%
+  template:
+    metadata:
+      labels:
+        app: shamilweb
+    spec:
+      containers:
+        - name: shamilweb
+          image: registry.runway.sh/shamil/personal-website:<VERSION>
+          ports:
+            - containerPort: 8080
+      imagePullSecrets:
+        - name: gitlab-registry
