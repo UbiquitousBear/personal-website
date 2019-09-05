@@ -1,0 +1,14 @@
+.container {
+  padding: 56px 20px;
+  min-height: 100%;
+  width: 100%;
+}
+
+.postHeading {
+  padding: 56px 0px 40px 0px;
+  margin-bottom: 0px;
+  background: #f4f4f4;
+}
+
+.postContent {
+}

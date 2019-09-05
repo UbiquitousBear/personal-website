@@ -1,0 +1,22 @@
+[
+    {
+        "title": "A brief to the Specification Pattern",
+        "publishDate": "2016-01-05T00:00:00Z",
+        "summary": "An overview of a pattern that literally has one job: is this true or false?",
+        "uri": "a-brief-to-the-specification-pattern",
+        "content": {
+            "path": "/content/a-brief-to-the-specification-pattern.md",
+            "contentType": "text/markdown"
+        }
+    },
+    {
+        "title": "Rescued by Doctrine Collections' Criteria",
+        "publishDate": "2015-12-25T00:00:00Z",
+        "summary": "How I applied criteria to Doctrine collections before or after loading data.",
+        "uri": "rescued-by-doctrine-collections-criteria",
+        "content": {
+            "path": "/content/rescued-by-doctrine-collections-criteria.md",
+            "contentType": "text/markdown"
+        }
+    }
+]
