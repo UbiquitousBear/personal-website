@@ -1,8 +1,8 @@
 stages:
-#   - test
+  - lint
+  # - test
   - build
   - release
-  - deploy
 
 variables:
   IMAGE_NAME: registry.runway.sh/shamil/personal-website
@@ -24,6 +24,18 @@ variables:
     - npm install
 
 ##
+## LINT
+##
+
+lint:
+  <<: *npm
+  stage: lint
+  cache:
+    <<: *cache
+  script:
+    - npm run lint
+
+##
 ## TEST
 ##
 
@@ -33,13 +45,13 @@ variables:
 #   cache:
 #     <<: *cache
 #   script:
-#     - make test
+#     - npm run test
 
 ##
 ## BUILD
 ##
 
-build:
+build-app:
   <<: *npm
   stage: build
   artifacts:
@@ -51,18 +63,19 @@ build:
     policy: pull
   script:
     - npm run build-no-prerender
+    - cp -r content build/
 
 ##
 ## RELEASE
 ##
 
-release:
+build-image:
   stage: release
-  # only: [ master ]
+  only: [ master ]
   image:
     name: gcr.io/kaniko-project/executor:debug
   dependencies:
-    - build
+    - build-app
   script:
     - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
     - cp release/* build/
@@ -74,7 +87,8 @@ release:
       --destination ${IMAGE_NAME}:latest
 
 deploy:
-  stage: deploy
+  stage: release
+  only: [ master ]
   image: dtzar/helm-kubectl
   script:
     - kubectl config set-cluster k8s --server="${SERVER}"
@@ -92,4 +106,3 @@ deploy:
                       --dry-run | kubectl apply -n $KUBERNETES_NAMESPACE -f -
     - sed -i "s/<VERSION>/${IMAGE_TAG}/g" deployment.yaml
     - kubectl apply -f deployment.yaml
-

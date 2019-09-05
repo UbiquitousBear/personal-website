@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+        "target": "ES5",
+        "module": "ESNext",
+        "allowJs": true,
+        "jsx": "react",
+        "jsxFactory": "h",
+        "strict": true,
+        "moduleResolution": "node",
+        "esModuleInterop": true,
+        "outDir": "",
+        "noImplicitAny": false
+    },
+    "include": ["src/**/*.tsx", "src/**/*.ts"],
+}

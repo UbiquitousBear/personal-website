@@ -1,21 +1,21 @@
-import { Link } from 'preact-router/match';
-import style from './style';
+import { Link } from "preact-router/match";
+import style from "./style";
 
 const Header = () => (
-	<header class={style.header}>
-		<h1>Shamil Nunhuck</h1>
-		<nav>
-			<Link activeClassName={style.active} href="/">
+  <header class={style.header}>
+    <h1>Shamil Nunhuck</h1>
+    <nav>
+      <Link activeClassName={style.active} href="/">
         Home
-			</Link>
-			<Link activeClassName={style.active} href="/curriculum-vitae">
+      </Link>
+      <Link activeClassName={style.active} href="/curriculum-vitae">
         CV Resume
-			</Link>
-			<Link activeClassName={style.active} href="/blog">
+      </Link>
+      <Link activeClassName={style.active} href="/blog/">
         Blog
-			</Link>
-		</nav>
-	</header>
+      </Link>
+    </nav>
+  </header>
 );
 
 export default Header;

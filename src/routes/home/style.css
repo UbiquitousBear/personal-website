@@ -1,11 +1,11 @@
 .home {
-	padding: 56px 20px;
-	min-height: 100%;
-	width: 100%;
-	text-shadow: rgb(255, 255, 255) 0 1px 0;
-	color: #555555;
+  padding: 56px 20px;
+  min-height: 100%;
+  width: 100%;
+  text-shadow: rgb(255, 255, 255) 0 1px 0;
+  color: #555555;
 }
 
 .home .mdc-typography {
-	color: #444F64 !important;
+  color: #444f64 !important;
 }
