@@ -1,29 +1,33 @@
+import { faCalendar, faClock } from '@fortawesome/free-regular-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Component, h } from 'preact';
-import LayoutGrid from 'preact-material-components/LayoutGrid';
-import 'preact-material-components/LayoutGrid/style.css';
-import Typography from 'preact-material-components/Typography';
-import 'preact-material-components/Typography/style.css';
+import { Container } from 'reactstrap'
 import BlogItem from '../../entities/BlogItem';
 import BlogServiceInterface from '../../services/Blog/BlogServiceInterface';
 import * as style from './style.css'
 
-class Blog extends Component {
+interface BlogProps {
+    matches?: { uri: string }, 
+    dependencies?: { blogService: BlogServiceInterface }
+}
+
+class Blog extends Component<BlogProps> {
 
     public state = { blogItemContent: null, blogItem: null }
     private readonly blogService: BlogServiceInterface;
     private readonly uri: string;
 
-	constructor(props: { dependencies: { blogService: BlogServiceInterface }, matches: { uri: string }}) {
+	constructor(props: BlogProps) {
         super(props);
-        this.uri = props.matches.uri;
-		this.blogService = props.dependencies.blogService;
+        this.uri = props.matches!.uri;
+		this.blogService = props.dependencies!.blogService;
     }
     
     public componentDidMount() {
 		this.getFirstBlogItemContent(this.uri);
 	}
 
-    public render({}, { blogItemContent , blogItem }) {
+    public render({}: BlogProps, { blogItemContent , blogItem }) {
         if (blogItem) {
             return this.renderBlogContent(blogItem, blogItemContent)
         } 
@@ -34,21 +38,23 @@ class Blog extends Component {
     private renderBlogContent(blogItem: BlogItem, blogItemContent: string) {
         return(
             <div>
-                <LayoutGrid>
-				    <LayoutGrid.Inner>
-                        <LayoutGrid.Cell cols="12" class={style.postHeading}>
-                            <div><Typography headline4={true}>{ blogItem.title }</Typography></div>
-                            <div><Typography headline5={true}>{ blogItem.summary }</Typography></div>
-                        </LayoutGrid.Cell>
-				    </LayoutGrid.Inner>
-			    </LayoutGrid>
-                <LayoutGrid>
-                    <LayoutGrid.Inner>
-                        <LayoutGrid.Cell cols="12" class={style.postContent}>
-                            <div dangerouslySetInnerHTML={{ __html: blogItemContent }} />
-                        </LayoutGrid.Cell>
-                    </LayoutGrid.Inner>
-                </LayoutGrid>
+                <div class={style.postHeading}>
+                    <Container>
+                        <h1>{ blogItem.title }</h1>
+                        <p className="lead">{ blogItem.summary }</p>
+                        <p>
+                            <small>
+                                { this.buildPublishDate(blogItem) }
+                                { this.buildReadingTime(blogItem) }
+                            </small>
+                        </p>
+                    </Container>
+                </div>
+                <div class={style.postContent}>
+                    <Container>
+                        <div dangerouslySetInnerHTML={{ __html: blogItemContent }} />
+                    </Container>
+                </div>
             </div>
         );
     }
@@ -56,13 +62,7 @@ class Blog extends Component {
     private renderBlogItemNotFound() {
         return (
             <div class={style.container}>
-                <LayoutGrid>
-                    <LayoutGrid.Inner>
-                        <LayoutGrid.Cell cols="12">
-                            <div><Typography headline4={true}>Post Not Found!</Typography></div>
-                        </LayoutGrid.Cell>
-                    </LayoutGrid.Inner>
-			    </LayoutGrid>
+                <h1>Post Not Found!</h1>
             </div>
         );
     }
@@ -77,7 +77,29 @@ class Blog extends Component {
             }
         })
         .catch((error) => console.log(error))
-	}
+    }
+    
+    private formatDateString(dateString: string): string {
+		const date = new Date(dateString);
+		return date.toLocaleDateString("en-GB", { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+    }
+    
+    private buildPublishDate(blogItem: BlogItem) {
+        return (
+            <div>
+                <FontAwesomeIcon icon={ faCalendar } /> { this.formatDateString(blogItem.publishDate) }
+            </div>
+        );
+    }
+
+    private buildReadingTime(blogItem: BlogItem) {
+        return (
+            <div>
+                <FontAwesomeIcon icon={ faClock } /> 5 minutes
+            </div>
+        );
+    }
 }
 
 export default Blog;
+export { BlogProps }

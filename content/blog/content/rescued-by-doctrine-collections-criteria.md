@@ -16,40 +16,46 @@ As the bot is being used over multiple channels in any given network, it is impe
 
 One might think that an easy solution would be to write a specific query to fetch the latest info tied to an account when fetching the account for a user.
 
-    $qB = $this->createQueryBuilder('a');
-    $qB->select('a,i');
-    $qB->where('a.nick = :nick')->setParameter('nick', $nick);
-    $qB->andWhere('i.active = :active', true);
-    $qB->andWhere('i.channel = :channel')->setParameter('channel', $channel);
-    $qB->orderBy('i.updatedTimestamp', 'DESC');
-    $qB->setMaxResults(1);
+```php
+$qB = $this->createQueryBuilder('a');
+$qB->select('a,i');
+$qB->where('a.nick = :nick')->setParameter('nick', $nick);
+$qB->andWhere('i.active = :active', true);
+$qB->andWhere('i.channel = :channel')->setParameter('channel', $channel);
+$qB->orderBy('i.updatedTimestamp', 'DESC');
+$qB->setMaxResults(1);
+```
 
 Or something like that.
 
-The would result in a specialised query just to fetch the `entity` which didn't satisfy the requirement of that information not always being there; not to mention the obvious bloated run-time complexity involved in the query.
+The would result in a specialised query just to fetch the `entity` which didn't satisfy the requirement of that information not always being there; not to mention the obvious bloated runtime complexity involved in the query.
 
 Another option was to perform the filtering later.
 
-    $infoCollection = $account->getInfos();
-    $infoChanCollection = $infoCollection->filter(function($info) use ($channel) {
-    	return $info->getChannel() == $channel;
-    });
+```php
+$infoCollection = $account->getInfos();
+$infoChanCollection = $infoCollection->filter(function($info) use ($channel) {
+    return $info->getChannel().equals($channel);
+});
 
-    $iterator = $infoChanCollection->getIterator();
-    $iterator->uasort(function ($a, $b) {
-    	return $a->getUpdatedTimestamp() > $b->getUpdatedTimestamp() ? 1 : -1;
-    });
+$iterator = $infoChanCollection->getIterator();
+$iterator->uasort(function ($a, $b) {
+    return $a->getUpdatedTimestamp() > $b->getUpdatedTimestamp() ? 1 : -1;
+});
 
-    $infoCollection = new ArrayCollection(iterator_to_array($iterator));
-    $info = $infoCollection[0];
+$infoCollection = new ArrayCollection(iterator_to_array($iterator));
+$info = $infoCollection[0];
+```
 
-This still loads all of the possible associations into memory and just as bad, has a pretty bad run-time complexity. It is dirty.
+This still loads all of the possible associations into memory and just as bad, has a pretty bad run-time complexity. It is dirty, but it works.
 
 Doctrine's Collections `Criteria` allows the filtering of associations using an abstract query (not query language) that can be applied to a collection. The brilliant thing about this is how it works:
 
-> "... you can use collection matching interchangeably, independent of in-memory or sql-backed collections"
+<blockquote class="blockquote">
+"... you can use collection matching interchangeably, independent of in-memory or sql-backed collections"
+</blockquote>
 
-> [Doctrine Filtering Collections](http://doctrine-orm.readthedocs.org/projects/doctrine-orm/en/latest/reference/working-with-associations.html#filtering-collections)
+> -- <cite>[Doctrine Filtering Collections](http://doctrine-orm.readthedocs.org/projects/doctrine-orm/en/latest/reference/working-with-associations.html#filtering-collections)</cite>
 
 That is, if the collection is:
 
@@ -62,12 +68,14 @@ This solves the criteria (!) of not unnecessarily loading every association to f
 
 Writing the code for this to happen was very simple:
 
-    $criteria = Criteria::create();
+```php
+$criteria = Criteria::create();
 
-    $criteria->where(Criteria::expr()->eq('active', 1));
-    $criteria->andWhere(Criteria::expr()->eq('ircServerChannel', $channel));
-    $criteria->orderBy(['modifiedTimestamp' => Criteria::DESC]);
+$criteria->where(Criteria::expr()->eq('active', 1));
+$criteria->andWhere(Criteria::expr()->eq('ircServerChannel', $channel));
+$criteria->orderBy(['modifiedTimestamp' => Criteria::DESC]);
 
-    return $this->infos->matching($criteria);
+return $this->infos->matching($criteria);
+```
 
 Writing the Criteria was very simple, simply because most of the methods available to me mimic those found the Doctrine's `QueryBuilder`.

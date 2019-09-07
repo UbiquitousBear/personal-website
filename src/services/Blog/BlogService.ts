@@ -1,12 +1,13 @@
-import dompurify from 'dompurify'
-import * as marked from 'marked' 
+ 
 import BlogItem from '../../entities/BlogItem'
 import BlogRepositoryInterface from '../../repositories/Blog/BlogRepositoryInterface'
+import RendererInterface from '../Renderer/RendererInterface';
 
 class BlogService {
     
     constructor(
-        private repository: BlogRepositoryInterface
+        private repository: BlogRepositoryInterface,
+        private blogRenderers: RendererInterface[]
     ) {}
 
     public async newestItems(numberItemsToReturn: 3): Promise<BlogItem[]> {
@@ -17,8 +18,9 @@ class BlogService {
 
     public async renderBlogToHtml(item: BlogItem): Promise<string> {
         return this.repository.fetchItemContent(item)
-        .then((content: string) => marked(content))
-        .then((content: string) => dompurify.sanitize(content, {}))
+        .then((content: string) => this.blogRenderers.reduce(
+            (currentContent: string, renderer: RendererInterface, _, []): string => renderer.render(currentContent), content
+        ))
     }
 
     public async findByUri(uri: string): Promise<BlogItem[]> {
