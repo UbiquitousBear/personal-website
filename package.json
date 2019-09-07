@@ -32,7 +32,9 @@
         "build/*"
     ],
     "devDependencies": {
+        "@types/dompurify": "0.0.33",
         "@types/jest": "^23.3.10",
+        "@types/prismjs": "^1.16.0",
         "@types/webpack-env": "^1.13.9",
         "css-loader": "^1.0.1",
         "husky": "^1.2.0",
@@ -55,12 +57,18 @@
         "webpack": "^4.28.4"
     },
     "dependencies": {
+        "@fortawesome/fontawesome-svg-core": "^1.2.22",
+        "@fortawesome/free-regular-svg-icons": "^5.10.2",
+        "@fortawesome/free-solid-svg-icons": "^5.10.2",
+        "@fortawesome/react-fontawesome": "^0.1.4",
+        "bootstrap": "^4.3.1",
         "dompurify": "^1.0.11",
         "marked": "^0.7.0",
-        "preact": "^8.5.2",
-        "preact-material-components": "^1.5.8",
-        "preact-render-to-string": "^4.1.0",
-        "preact-router": "^2.5.7",
+        "preact": "^10.0.0-rc.1",
+        "preact-render-to-string": "^5.0.6",
+        "preact-router": "^3.0.1",
+        "prismjs": "^1.17.1",
+        "reactstrap": "^8.0.1",
         "webfontloader": "^1.6.28"
     },
     "peerDependencies": {

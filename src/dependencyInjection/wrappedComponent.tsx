@@ -1,21 +1,15 @@
-import { Component, h } from 'preact';
+import { Component, ComponentClass, ComponentType, h } from 'preact';
 
-function WrappedComponent(HOCComponent: Component, dependencies: object){
-    return class extends Component {
-        public state: {} = {}
-        private dependencies: {} = {}
-
-        constructor(props: {}) {
-            super(props);
-            this.dependencies = dependencies
+function WrappedComponent(props: object): <P extends object>(WrappedComponent: ComponentType<P>) => ComponentClass<P> {
+    return <P extends object>(ComposedComponent: ComponentType<P>) =>
+        class extends Component<P> {
+            public render() {
+                const constructedProps = { ...this.props, ...props };
+                return (
+                    <ComposedComponent { ...constructedProps } />
+                );
+            }
         }
-        
-        public render(){
-            return (
-                <HOCComponent dependencies={this.dependencies} {...this.props} />
-            );
-        }
-    }
 }
 
 export default WrappedComponent;

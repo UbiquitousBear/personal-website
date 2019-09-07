@@ -5,10 +5,15 @@
 }
 
 .postHeading {
-  padding: 56px 0px 40px 0px;
-  margin-bottom: 0px;
+  padding: 20px 0px 20px 0px;
+  margin-bottom: 20px;
   background: #f4f4f4;
 }
 
+.postHeading h1 {
+  color: #444f64;
+}
+
 .postContent {
+  background: transparent;
 }
