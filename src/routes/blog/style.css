@@ -1,19 +1,16 @@
-.container {
-  padding: 56px 20px;
-  min-height: 100%;
-  width: 100%;
+.page-header {
+  display: block;
+  padding-top: 30px;
+  padding-bottom: 20px;
+  background-color: #f4f4f4;
+  margin-top: 0;
+  border-bottom: 1px solid #e7e7e7;
 }
 
-.postHeading {
-  padding: 20px 0px 20px 0px;
-  margin-bottom: 20px;
-  background: #f4f4f4;
-}
-
-.postHeading h1 {
+.page-header h1 {
   color: #444f64;
 }
 
-.postContent {
-  background: transparent;
+.page-content {
+  margin-top: 10px;
 }

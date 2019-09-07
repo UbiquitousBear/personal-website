@@ -4,7 +4,8 @@ import ContainerInterface from '../dependencyInjection/containerInterface';
 import WrappedComponent from '../dependencyInjection/wrappedComponent';
 import BlogRepositoryInterface from '../repositories/Blog/BlogRepositoryInterface';
 import HttpApi from '../repositories/Blog/HttpApi';
-import Blog, { BlogProps } from '../routes/blog';
+import Blog from '../routes/blog';
+import BlogPost, { BlogPostProps } from '../routes/blogPost';
 import Home, { HomeProps } from '../routes/home';
 import BlogService from '../services/Blog/BlogService';
 import BlogServiceInterface from '../services/Blog/BlogServiceInterface';
@@ -19,6 +20,7 @@ class AppContainer extends Container {
     public static readonly BLOG_REPOSITORY = 'BLOG_REPOSITORY';
     public static readonly HOME_COMPONENT = 'HOME_COMPONENT';
     public static readonly BLOG_COMPONENT = 'BLOG_COMPONENT';
+    public static readonly BLOG_POST_COMPONENT = 'BLOG_POST_COMPONENT';
     public static readonly MARKDOWN_CODE_RENDERER = 'MARKDOWN_CODE_RENDERER';
     public static readonly HTML_SANITIZER_RENDERER = 'HTML_SANITIZER_RENDERER';
 
@@ -34,6 +36,7 @@ class AppContainer extends Container {
             const config: { [key: string]: string } = {};
             CONFIG_KEYS.forEach((value: string) => {
                 config[value] = '/content/blog' // TODO: fetch config from somewhere
+                // config[value] = 'http://localhost:8000/content/blog/' // TODO: fetch config from somewhere
             })
 
             return config;
@@ -73,10 +76,17 @@ class AppContainer extends Container {
             return WrappedComponent(props)(Home)
         }))
 
-        this.set(AppContainer.BLOG_COMPONENT, ((container: ContainerInterface): ComponentClass => {
-            const props: BlogProps = {
+        this.set(AppContainer.BLOG_POST_COMPONENT, ((container: ContainerInterface): ComponentClass => {
+            const props: BlogPostProps = {
                 dependencies: { blogService: container.get(AppContainer.BLOG_SERVICE) }
             }
+            return WrappedComponent(props)(BlogPost)
+        }))
+
+        this.set(AppContainer.BLOG_COMPONENT, ((container: ContainerInterface): ComponentClass => {
+            const props: HomeProps = {
+                dependencies: { blogService: container.get(AppContainer.BLOG_SERVICE) as BlogServiceInterface }
+            };
             return WrappedComponent(props)(Blog)
         }))
     }

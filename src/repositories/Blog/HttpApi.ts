@@ -8,6 +8,9 @@ class HttpApi implements BlogRepositoryInterface {
 
     public async fetchItemList(): Promise<BlogItem[]> {
         const response = await fetch(this.baseUrl + '/index.json');
+        if (!response.ok) {
+            throw new RepositoryError(response);
+        }
         return await response.json();
     }
 

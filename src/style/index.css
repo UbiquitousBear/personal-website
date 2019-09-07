@@ -77,20 +77,6 @@ li.nav-selected {
   border-bottom: 3px solid #444f64;
 }
 
-.page-header {
-  display: block;
-  padding-top: 30px;
-  padding-bottom: 20px;
-  background-color: #f4f4f4;
-  margin-top: 0;
-  border-bottom: 1px solid #e7e7e7;
-}
-
-.page-header h1,
-.home h1 {
-  color: #444f64;
-}
-
 .workExperienceInfo {
   display: none;
 }
