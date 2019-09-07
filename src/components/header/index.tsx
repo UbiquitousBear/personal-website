@@ -11,7 +11,6 @@ import {
 class Header extends Component {
 
   public render() {
-    console.log(this.props)
     return (
       <div>
         <Navbar expand="md">

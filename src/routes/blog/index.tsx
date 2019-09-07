@@ -1,105 +1,61 @@
-import { faCalendar, faClock } from '@fortawesome/free-regular-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Component, h } from 'preact';
-import { Container } from 'reactstrap'
+import { Col, Container, Row } from 'reactstrap';
 import BlogItem from '../../entities/BlogItem';
 import BlogServiceInterface from '../../services/Blog/BlogServiceInterface';
 import * as style from './style.css'
 
 interface BlogProps {
-    matches?: { uri: string }, 
-    dependencies?: { blogService: BlogServiceInterface }
+	dependencies?: { 
+		blogService: BlogServiceInterface
+	}
 }
 
 class Blog extends Component<BlogProps> {
-
-    public state = { blogItemContent: null, blogItem: null }
+    
+    public state = { blogItems: [] }
     private readonly blogService: BlogServiceInterface;
-    private readonly uri: string;
 
-	constructor(props: BlogProps) {
+    constructor(props: BlogProps) {
         super(props);
-        this.uri = props.matches!.uri;
 		this.blogService = props.dependencies!.blogService;
     }
-    
+
     public componentDidMount() {
-		this.getFirstBlogItemContent(this.uri);
+		this.getBlogItems();
 	}
 
-    public render({}: BlogProps, { blogItemContent , blogItem }) {
-        if (blogItem) {
-            return this.renderBlogContent(blogItem, blogItemContent)
-        } 
-
-        return this.renderBlogItemNotFound();
-    }
-
-    private renderBlogContent(blogItem: BlogItem, blogItemContent: string) {
-        return(
+    public render({}: BlogProps, { blogItems }) {
+        return (
             <div>
-                <div class={style.postHeading}>
+                <div class={ style.pageHeader }>
                     <Container>
-                        <h1>{ blogItem.title }</h1>
-                        <p className="lead">{ blogItem.summary }</p>
-                        <p>
-                            <small>
-                                { this.buildPublishDate(blogItem) }
-                                { this.buildReadingTime(blogItem) }
-                            </small>
-                        </p>
+                        <h1>Blog Posts</h1>
+                        <p class="lead">My thoughts, theories and ramblings</p>
                     </Container>
                 </div>
-                <div class={style.postContent}>
+                <div class={ style.pageContent }>
                     <Container>
-                        <div dangerouslySetInnerHTML={{ __html: blogItemContent }} />
+                        { blogItems.map((blogItem: BlogItem) => (
+                            <Row>
+                                <Col xs="12"><h5><a href={ this.buildBlogUrl(blogItem) }>{ blogItem.title }</a></h5></Col>
+                                <Col xs="12"><p>{ blogItem.summary }</p></Col>
+                                <Col xs="12"><hr /></Col>
+                            </Row>
+                        )) }
                     </Container>
                 </div>
             </div>
         );
     }
-
-    private renderBlogItemNotFound() {
-        return (
-            <div class={style.container}>
-                <h1>Post Not Found!</h1>
-            </div>
-        );
-    }
-
-    private getFirstBlogItemContent(uri: string) {
-        this.blogService.findByUri(uri)
-        .then((items: BlogItem[]): BlogItem => items[0] || null)
-        .then((item: BlogItem) => {
-            if (item !== null) {
-                return this.blogService.renderBlogToHtml(item)
-                .then((content: string) => this.setState({ blogItemContent: content, blogItem: item }))
-            }
-        })
-        .catch((error) => console.log(error))
-    }
     
-    private formatDateString(dateString: string): string {
-		const date = new Date(dateString);
-		return date.toLocaleDateString("en-GB", { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-    }
-    
-    private buildPublishDate(blogItem: BlogItem) {
-        return (
-            <div>
-                <FontAwesomeIcon icon={ faCalendar } /> { this.formatDateString(blogItem.publishDate) }
-            </div>
-        );
-    }
+    private getBlogItems() {
+		this.blogService.newestItems(3)
+		.then((blogItems: BlogItem[]) => this.setState({ blogItems }))
+	}
 
-    private buildReadingTime(blogItem: BlogItem) {
-        return (
-            <div>
-                <FontAwesomeIcon icon={ faClock } /> 5 minutes
-            </div>
-        );
-    }
+	private buildBlogUrl(blogItem: BlogItem): string {
+		return '/blog/' + blogItem.uri; 
+	}
 }
 
-export default Blog;
-export { BlogProps }
+export default Blog
