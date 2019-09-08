@@ -22,6 +22,7 @@ class Home extends Component<HomeProps> {
 
 	public componentDidMount() {
 		this.getBlogItems()
+		document.title = 'About Shamil'
 	}
 
 	public render({}: HomeProps, { blogItems }) {
