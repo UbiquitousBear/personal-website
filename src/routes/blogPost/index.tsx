@@ -72,6 +72,7 @@ class BlogPost extends Component<BlogPostProps> {
         .then((items: BlogItem[]): BlogItem => items[0] || null)
         .then((item: BlogItem) => {
             if (item !== null) {
+                document.title = item.title
                 return this.blogService.renderBlogToHtml(item)
                 .then((content: string) => this.setState({ blogItemContent: content, blogItem: item }))
             }

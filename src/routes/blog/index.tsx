@@ -21,7 +21,8 @@ class Blog extends Component<BlogProps> {
     }
 
     public componentDidMount() {
-		this.getBlogItems()
+        document.title = 'Blog Posts'
+        this.getBlogItems()
 	}
 
     public render({}: BlogProps, { blogItems }) {
