@@ -1,4 +1,4 @@
-import BlogContent from "./BlogContent";
+import BlogContent from './BlogContent'
 
 class BlogItem {
 

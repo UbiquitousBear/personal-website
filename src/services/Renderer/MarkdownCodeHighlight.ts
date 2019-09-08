@@ -1,6 +1,6 @@
 import * as marked from 'marked'
-import prism from 'prismjs';
-import RendererInterface from './RendererInterface';
+import prism from 'prismjs'
+import RendererInterface from './RendererInterface'
 
 class MarkdownCodeHighlight implements RendererInterface {
     
@@ -8,15 +8,15 @@ class MarkdownCodeHighlight implements RendererInterface {
         supportedLanguages: string[] = []
     ) 
     {
-        this.importSupportedLanguages(supportedLanguages);
+        this.importSupportedLanguages(supportedLanguages)
     }
 
     public render(content: string): string {
         return marked(content, {
             highlight(code, lang) {
-                return prism.highlight(code, prism.languages[lang || 'markup'], lang || 'markup');
+                return prism.highlight(code, prism.languages[lang || 'markup'], lang || 'markup')
             },
-        });
+        })
     }
 
     private importSupportedLanguages(supportedLanguages: string[]): void {
@@ -24,4 +24,4 @@ class MarkdownCodeHighlight implements RendererInterface {
     }
 }
 
-export default MarkdownCodeHighlight;
+export default MarkdownCodeHighlight

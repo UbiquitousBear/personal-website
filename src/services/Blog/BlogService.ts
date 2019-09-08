@@ -1,7 +1,7 @@
  
 import BlogItem from '../../entities/BlogItem'
 import BlogRepositoryInterface from '../../repositories/Blog/BlogRepositoryInterface'
-import RendererInterface from '../Renderer/RendererInterface';
+import RendererInterface from '../Renderer/RendererInterface'
 
 class BlogService {
     
@@ -29,12 +29,12 @@ class BlogService {
     }
 
     private sortByDatePublished(a: BlogItem, b: BlogItem): number {
-        const dateA = new Date(a.publishDate);
-        const dateB = new Date(b.publishDate);
+        const dateA = new Date(a.publishDate)
+        const dateB = new Date(b.publishDate)
         return (dateA > dateB) ? - 1 
         : (dateA < dateB) ? 1 
-        : 0;
+        : 0
     }
 }
 
-export default BlogService;
+export default BlogService

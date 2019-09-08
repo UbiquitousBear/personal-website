@@ -1,4 +1,4 @@
-import { Component, h } from 'preact';
+import { Component, h } from 'preact'
 import {
   Container,
   Nav,
@@ -6,7 +6,7 @@ import {
   NavbarBrand,
   NavItem,
   NavLink,
-} from 'reactstrap';
+} from 'reactstrap'
 
 class Header extends Component {
 
@@ -27,8 +27,8 @@ class Header extends Component {
           </Container>
         </Navbar>
       </div>
-    );
+    )
   }
 }
 
-export default Header;
+export default Header

@@ -1,7 +1,7 @@
-import { Component, h } from 'preact';
-import { Col, Container, Row } from 'reactstrap';
-import BlogItem from '../../entities/BlogItem';
-import BlogServiceInterface from '../../services/Blog/BlogServiceInterface';
+import { Component, h } from 'preact'
+import { Col, Container, Row } from 'reactstrap'
+import BlogItem from '../../entities/BlogItem'
+import BlogServiceInterface from '../../services/Blog/BlogServiceInterface'
 import * as style from './style.css'
 
 interface BlogProps {
@@ -13,15 +13,15 @@ interface BlogProps {
 class Blog extends Component<BlogProps> {
     
     public state = { blogItems: [] }
-    private readonly blogService: BlogServiceInterface;
+    private readonly blogService: BlogServiceInterface
 
     constructor(props: BlogProps) {
-        super(props);
-		this.blogService = props.dependencies!.blogService;
+        super(props)
+		this.blogService = props.dependencies!.blogService
     }
 
     public componentDidMount() {
-		this.getBlogItems();
+		this.getBlogItems()
 	}
 
     public render({}: BlogProps, { blogItems }) {
@@ -45,7 +45,7 @@ class Blog extends Component<BlogProps> {
                     </Container>
                 </div>
             </div>
-        );
+        )
     }
     
     private getBlogItems() {
@@ -54,7 +54,7 @@ class Blog extends Component<BlogProps> {
 	}
 
 	private buildBlogUrl(blogItem: BlogItem): string {
-		return '/blog/' + blogItem.uri; 
+		return '/blog/' + blogItem.uri 
 	}
 }
 

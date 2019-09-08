@@ -1,4 +1,4 @@
-import ContainerInterface from './containerInterface';
+import ContainerInterface from './containerInterface'
 
 class Container implements ContainerInterface {
     private entityCallableCollection: { [key: string]: any } = {}
@@ -6,11 +6,11 @@ class Container implements ContainerInterface {
 
     public get(id: string): any {
         if (!this.has(id)){
-            return null; // TODO: throw exception
+            return null // TODO: throw exception
         }
 
         if (this.entityInstanceCollection.hasOwnProperty(id)){
-            return this.entityInstanceCollection[id];
+            return this.entityInstanceCollection[id]
         }
 
         this.entityInstanceCollection[id] = this.entityCallableCollection[id](this)
@@ -23,25 +23,22 @@ class Container implements ContainerInterface {
     }
 
     public set(id: string, callable: CallableFunction): void {
-        this.validateNotEmpty(id);
-        this.validateIdIsNotAlreadyAnInstance(id);
+        this.validateNotEmpty(id)
+        this.validateIdIsNotAlreadyAnInstance(id)
         this.entityCallableCollection[id] = callable
     }
 
     private validateNotEmpty(id: string): void {
-        if (!id) {
-            return; // TODO: throw exception
-        }
-        if (id === ''){
-            return; // TODO: throw exception
+        if (!id || id === '') {
+            return // TODO: throw exception
         }
     }
 
     private validateIdIsNotAlreadyAnInstance(id: string): void {
         if (this.entityInstanceCollection.hasOwnProperty(id)) {
-            return; // TODO: throw exception
+            return // TODO: throw exception
         }
     }
 }
 
-export default Container;
+export default Container
