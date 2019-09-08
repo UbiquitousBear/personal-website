@@ -11,6 +11,7 @@
         "serve": "preact build && preact serve",
         "dev": "preact watch",
         "lint": "tslint --project .",
+        "lint-fix": "tslint --project . --fix",
         "test": "jest ./tests",
         "precommit": "lint-staged",
         "build-no-prerender": "preact build --no-prerender"

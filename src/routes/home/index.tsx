@@ -1,7 +1,7 @@
-import { Component, h } from 'preact';
+import { Component, h } from 'preact'
 import { Col, Container, Row } from 'reactstrap'
-import BlogItem from '../../entities/BlogItem';
-import BlogServiceInterface from '../../services/Blog/BlogServiceInterface';
+import BlogItem from '../../entities/BlogItem'
+import BlogServiceInterface from '../../services/Blog/BlogServiceInterface'
 import * as style from './style.css'
 
 interface HomeProps {
@@ -13,15 +13,15 @@ interface HomeProps {
 class Home extends Component<HomeProps> {
 
 	public state = { blogItems: [] }
-	private readonly blogService: BlogServiceInterface;
+	private readonly blogService: BlogServiceInterface
 
 	constructor(props: HomeProps) {
-		super(props);
-		this.blogService = props.dependencies!.blogService;
+		super(props)
+		this.blogService = props.dependencies!.blogService
 	}
 
 	public componentDidMount() {
-		this.getBlogItems();
+		this.getBlogItems()
 	}
 
 	public render({}: HomeProps, { blogItems }) {
@@ -78,7 +78,7 @@ class Home extends Component<HomeProps> {
 					</Row>
 				</Container>
 			</div>
-		);
+		)
 	}
 
 	private getBlogItems() {
@@ -87,9 +87,10 @@ class Home extends Component<HomeProps> {
 	}
 
 	private buildBlogUrl (blogItem: BlogItem): string {
-		return '/blog/' + blogItem.uri; 
+		return '/blog/' + blogItem.uri 
 	}
 }
 
-export default Home;
+export default Home
 export { HomeProps }
+

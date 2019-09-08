@@ -3,6 +3,6 @@ class RepositoryError extends Error {
         public response: Response
     )
     {
-        super();
+        super()
     }
 }

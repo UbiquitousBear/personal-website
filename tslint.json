@@ -31,6 +31,7 @@
         "no-regex-spaces": true,
         "no-sparse-arrays": true,
         "no-unexpected-multiline": true,
+        "semicolon": [true, "never"],
         "valid-jsdoc": true,
         "valid-typeof": true,
         "early-exit": { "severity": "warning" },

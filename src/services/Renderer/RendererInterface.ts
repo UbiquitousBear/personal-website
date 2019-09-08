@@ -1,5 +1,5 @@
 interface RendererInterface {
-    render(content: string): string;
+    render(content: string): string
 }
 
-export default RendererInterface;
+export default RendererInterface
