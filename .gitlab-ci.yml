@@ -1,6 +1,5 @@
 stages:
-  - lint
-  # - test
+  - quality
   - build
   - release
 
@@ -29,7 +28,7 @@ variables:
 
 lint:
   <<: *npm
-  stage: lint
+  stage: quality
   cache:
     <<: *cache
   script:
@@ -39,13 +38,13 @@ lint:
 ## TEST
 ##
 
-# test:
-#   <<: *npm
-#   stage: test
-#   cache:
-#     <<: *cache
-#   script:
-#     - npm run test
+test:
+  <<: *npm
+  stage: quality
+  cache:
+    <<: *cache
+  script:
+    - npm run test
 
 ##
 ## BUILD

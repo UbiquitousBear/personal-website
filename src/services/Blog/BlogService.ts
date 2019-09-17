@@ -10,7 +10,7 @@ class BlogService {
         private blogRenderers: RendererInterface[]
     ) {}
 
-    public async newestItems(numberItemsToReturn: 3): Promise<BlogItem[]> {
+    public async newestItems(numberItemsToReturn: number = 3): Promise<BlogItem[]> {
         return this.repository.fetchItemList()
         .then((items: BlogItem[]) => items.sort(this.sortByDatePublished))
         .then((items: BlogItem[]) => items.splice(0, numberItemsToReturn))

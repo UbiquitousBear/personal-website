@@ -82,7 +82,7 @@
         },
         "verbose": true,
         "setupFiles": [
-            "<rootDir>/src/tests/__mocks__/browserMocks.js"
+            "<rootDir>/tests/__mocks__/fileMocks.js"
         ],
         "testURL": "http://localhost:8080",
         "moduleFileExtensions": [

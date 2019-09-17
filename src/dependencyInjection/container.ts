@@ -1,4 +1,6 @@
 import ContainerInterface from './containerInterface'
+import ContainerError from './error/ContainerError'
+import NotFoundError from './error/NotFoundError'
 
 class Container implements ContainerInterface {
     private entityCallableCollection: { [key: string]: any } = {}
@@ -6,7 +8,7 @@ class Container implements ContainerInterface {
 
     public get(id: string): any {
         if (!this.has(id)){
-            return null // TODO: throw exception
+            throw new NotFoundError(`ID not found in container ${id}`)
         }
 
         if (this.entityInstanceCollection.hasOwnProperty(id)){
@@ -30,13 +32,13 @@ class Container implements ContainerInterface {
 
     private validateNotEmpty(id: string): void {
         if (!id || id === '') {
-            return // TODO: throw exception
+            throw new ContainerError('Cannot supply an empty ID')
         }
     }
 
     private validateIdIsNotAlreadyAnInstance(id: string): void {
         if (this.entityInstanceCollection.hasOwnProperty(id)) {
-            return // TODO: throw exception
+            throw new ContainerError(`ID ${id} already set`)
         }
     }
 }

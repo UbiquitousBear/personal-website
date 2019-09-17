@@ -71,11 +71,13 @@ class BlogPost extends Component<BlogPostProps> {
         this.blogService.findByUri(uri)
         .then((items: BlogItem[]): BlogItem => items[0] || null)
         .then((item: BlogItem) => {
-            if (item !== null) {
-                document.title = item.title
-                return this.blogService.renderBlogToHtml(item)
-                .then((content: string) => this.setState({ blogItemContent: content, blogItem: item }))
+            if (item === null) {
+                return
             }
+
+            document.title = item.title
+            return this.blogService.renderBlogToHtml(item)
+            .then((content: string) => this.setState({ blogItemContent: content, blogItem: item }))
         })
         .catch((error) => console.log(error))
     }
