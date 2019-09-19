@@ -13,7 +13,7 @@ interface BlogPostProps {
 
 class BlogPost extends Component<BlogPostProps> {
 
-    public state = { blogItemContent: null, blogItem: null }
+    public state = { blogItemContent: null, blogItem: null, notFound: false }
     private readonly blogService: BlogServiceInterface
     private readonly uri: string
 
@@ -32,7 +32,11 @@ class BlogPost extends Component<BlogPostProps> {
             return this.renderBlogContent(blogItem, blogItemContent)
         } 
 
-        return this.renderBlogItemNotFound()
+        if (this.state.notFound) {
+            return this.renderBlogItemNotFound()
+        }
+
+        return(<div/>)
     }
 
     private renderBlogContent(blogItem: BlogItem, blogItemContent: string) {
@@ -41,11 +45,9 @@ class BlogPost extends Component<BlogPostProps> {
                 <div class={style.postHeading}>
                     <Container>
                         <h1>{ blogItem.title }</h1>
-                        <p className="lead">{ blogItem.summary }</p>
                         <p>
                             <small>
-                                { this.buildPublishDate(blogItem) }
-                                { this.buildReadingTime(blogItem) }
+                                { this.buildMetadata(blogItem) }
                             </small>
                         </p>
                     </Container>
@@ -72,6 +74,7 @@ class BlogPost extends Component<BlogPostProps> {
         .then((items: BlogItem[]): BlogItem => items[0] || null)
         .then((item: BlogItem) => {
             if (item === null) {
+                this.setBlogItemNotFound()
                 return
             }
 
@@ -79,7 +82,7 @@ class BlogPost extends Component<BlogPostProps> {
             return this.blogService.renderBlogToHtml(item)
             .then((content: string) => this.setState({ blogItemContent: content, blogItem: item }))
         })
-        .catch((error) => console.log(error))
+        .catch((error: Error) => this.setBlogItemNotFound())
     }
     
     private formatDateString(dateString: string): string {
@@ -87,20 +90,18 @@ class BlogPost extends Component<BlogPostProps> {
 		return date.toLocaleDateString("en-GB", { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
     }
     
-    private buildPublishDate(blogItem: BlogItem) {
+    private buildMetadata(blogItem: BlogItem) {
         return (
             <div>
-                <FontAwesomeIcon icon={ faCalendar } /> { this.formatDateString(blogItem.publishDate) }
+                <span class="text-muted">
+                    <FontAwesomeIcon icon={ faCalendar } /> { this.formatDateString(blogItem.publishDate) } <FontAwesomeIcon icon={ faClock } /> 5 minutes
+                </span>
             </div>
         )
     }
 
-    private buildReadingTime(blogItem: BlogItem) {
-        return (
-            <div>
-                <FontAwesomeIcon icon={ faClock } /> 5 minutes
-            </div>
-        )
+    private setBlogItemNotFound(): void {
+        this.setState({ notFound: true })
     }
 }
 
