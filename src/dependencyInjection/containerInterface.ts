@@ -1,5 +1,5 @@
 interface ContainerInterface {
-    get(id: string): any
+    get<T>(id: string): T
     has(id: string): boolean
     set(id: string, callable: CallableFunction): void
 }

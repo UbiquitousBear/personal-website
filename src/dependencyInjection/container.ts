@@ -3,31 +3,31 @@ import ContainerError from './error/ContainerError'
 import NotFoundError from './error/NotFoundError'
 
 class Container implements ContainerInterface {
-    private entityCallableCollection: { [key: string]: any } = {}
-    private entityInstanceCollection: { [key: string]: CallableFunction } = {}
+    private instanceCallableCollection: { [key: string]: CallableFunction } = {}
+    private instanceCacheCollection: { [key: string]: any } = {}
 
-    public get(id: string): any {
+    public get<T>(id: string): T {
         if (!this.has(id)){
             throw new NotFoundError(`ID not found in container ${id}`)
         }
 
-        if (this.entityInstanceCollection.hasOwnProperty(id)){
-            return this.entityInstanceCollection[id]
+        if (this.instanceCacheCollection.hasOwnProperty(id)){
+            return this.instanceCacheCollection[id]
         }
 
-        this.entityInstanceCollection[id] = this.entityCallableCollection[id](this)
+        this.instanceCacheCollection[id] = this.instanceCallableCollection[id](this)
 
-        return this.entityInstanceCollection[id]
+        return this.instanceCacheCollection[id]
     }
 
     public has(id: string): boolean {
-        return this.entityCallableCollection.hasOwnProperty(id)
+        return this.instanceCallableCollection.hasOwnProperty(id)
     }
 
     public set(id: string, callable: CallableFunction): void {
         this.validateNotEmpty(id)
         this.validateIdIsNotAlreadyAnInstance(id)
-        this.entityCallableCollection[id] = callable
+        this.instanceCallableCollection[id] = callable
     }
 
     private validateNotEmpty(id: string): void {
@@ -37,7 +37,7 @@ class Container implements ContainerInterface {
     }
 
     private validateIdIsNotAlreadyAnInstance(id: string): void {
-        if (this.entityInstanceCollection.hasOwnProperty(id)) {
+        if (this.instanceCacheCollection.hasOwnProperty(id)) {
             throw new ContainerError(`ID ${id} already set`)
         }
     }
