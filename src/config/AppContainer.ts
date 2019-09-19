@@ -11,6 +11,7 @@ import BlogService from '../services/Blog/BlogService'
 import BlogServiceInterface from '../services/Blog/BlogServiceInterface'
 import HTMLSanitizer from '../services/Renderer/HTMLSanitizer'
 import MarkdownCodeHighlight from '../services/Renderer/MarkdownCodeHighlight'
+import RendererInterface from '../services/Renderer/RendererInterface'
 import { CONFIG_KEYS } from './AppConfig'
 
 class AppContainer extends Container {
@@ -37,7 +38,7 @@ class AppContainer extends Container {
             const config: { [key: string]: string } = {}
             CONFIG_KEYS.forEach((value: string) => {
                 config[value] = '/content/blog' // TODO: fetch config from somewhere
-                // config[value] = 'http://localhost:8000/content/blog/' // TODO: fetch config from somewhere
+                // config[value] = 'http://localhost:8090/blog/' // TODO: fetch config from somewhere
             })
 
             return config
@@ -54,16 +55,16 @@ class AppContainer extends Container {
         }))
 
         this.set(AppContainer.BLOG_REPOSITORY, ((container: ContainerInterface): BlogRepositoryInterface => {
-            const config: { blog_repository_api: string } = container.get(AppContainer.CONFIG)
-            return new HttpApi(config.blog_repository_api)
+            const config: { BLOG_REPOSITORY_API: string } = container.get(AppContainer.CONFIG)
+            return new HttpApi(config.BLOG_REPOSITORY_API)
         }))
         
         this.set(AppContainer.BLOG_SERVICE, ((container: ContainerInterface): BlogServiceInterface => {
             return new BlogService(
                 container.get(AppContainer.BLOG_REPOSITORY),
                 [ 
-                    container.get(AppContainer.MARKDOWN_CODE_RENDERER),
-                    container.get(AppContainer.HTML_SANITIZER_RENDERER)
+                    container.get<RendererInterface>(AppContainer.MARKDOWN_CODE_RENDERER),
+                    container.get<RendererInterface>(AppContainer.HTML_SANITIZER_RENDERER)
                 ]
             )
         }))
@@ -72,21 +73,21 @@ class AppContainer extends Container {
     private initComponents(): void {
         this.set(AppContainer.HOME_COMPONENT, ((container: ContainerInterface): ComponentClass => {
             const props: HomeProps = {
-                dependencies: { blogService: container.get(AppContainer.BLOG_SERVICE) as BlogServiceInterface }
+                dependencies: { blogService: container.get<BlogServiceInterface>(AppContainer.BLOG_SERVICE)}
             }
             return WrappedComponent(props)(Home)
         }))
 
         this.set(AppContainer.BLOG_POST_COMPONENT, ((container: ContainerInterface): ComponentClass => {
             const props: BlogPostProps = {
-                dependencies: { blogService: container.get(AppContainer.BLOG_SERVICE) }
+                dependencies: { blogService: container.get<BlogServiceInterface>(AppContainer.BLOG_SERVICE) }
             }
             return WrappedComponent(props)(BlogPost)
         }))
 
         this.set(AppContainer.BLOG_COMPONENT, ((container: ContainerInterface): ComponentClass => {
             const props: HomeProps = {
-                dependencies: { blogService: container.get(AppContainer.BLOG_SERVICE) as BlogServiceInterface }
+                dependencies: { blogService: container.get<BlogServiceInterface>(AppContainer.BLOG_SERVICE)}
             }
             return WrappedComponent(props)(Blog)
         }))

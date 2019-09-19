@@ -1,5 +1,5 @@
 const CONFIG_KEYS = [
-    'blog_repository_api'
+    'BLOG_REPOSITORY_API'
 ]
 
 export { CONFIG_KEYS }
