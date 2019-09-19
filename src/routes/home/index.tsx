@@ -35,7 +35,7 @@ class Home extends Component<HomeProps> {
 							<p className="lead">I'm a London-based software engineer, currently working as a Production Engineer.</p>
 						</Col>
 						<Col xs="2">
-							<img src="https://shamil.co.uk/assets/img/qEGeFOOE_200x200.jpg" alt="Shamil's Photo" className={ style.profileImg } />
+							<img src="/assets/img/qEGeFOOE_200x200.jpg" alt="Shamil's Photo" className={ style.profileImg } />
 						</Col>
 					</Row>
 					<Row>
