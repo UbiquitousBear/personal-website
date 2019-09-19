@@ -3,10 +3,12 @@ import BlogRepositoryInterface from '../../../src/repositories/Blog/BlogReposito
 import BlogService from '../../../src/services/Blog/BlogService'
 import RendererInterface from '../../../src/services/Renderer/RendererInterface'
 
+const blogItemEntityPath = '../../../src/entities/BlogItem'
+
 describe('BlogService', () => {
     it('fetches all blog items', async () => {
         // Arrange
-        const blogItems: BlogItem[] = [ jest.mock('../../../src/entities/BlogItem') as unknown as BlogItem ]
+        const blogItems: BlogItem[] = [ jest.mock(blogItemEntityPath) as unknown as BlogItem ]
 
         const repository = jest.fn<BlogRepositoryInterface, []>(() => ({
             fetchItemList: (): Promise<BlogItem[]> => new Promise(resolve => resolve(blogItems)),
@@ -16,13 +18,12 @@ describe('BlogService', () => {
         const service = new BlogService(new repository, [])
 
         // Act / Assert
-        expect.assertions(1)
-        await expect(service.newestItems(3)).resolves.toEqual([ jest.mock('../../../src/entities/BlogItem') as unknown as BlogItem ])
+        expect(service.newestItems(3)).resolves.toEqual([ jest.mock(blogItemEntityPath) as unknown as BlogItem ])
     })
 
     it('fetches the blog content', async () => {
         // Arrange
-        const blogItem = jest.mock('../../../src/entities/BlogItem') as unknown as BlogItem 
+        const blogItem = jest.mock(blogItemEntityPath) as unknown as BlogItem 
 
         const repository = jest.fn<BlogRepositoryInterface, []>(() => ({
             fetchItemList: (): Promise<BlogItem[]> => new Promise((_, reject) => reject('Not Implemented')),
@@ -32,13 +33,12 @@ describe('BlogService', () => {
         const service = new BlogService(new repository, [])
 
         // Act / Assert
-        expect.assertions(1)
-        await expect(service.renderBlogToHtml(blogItem)).resolves.toEqual('foo')
+        expect(service.renderBlogToHtml(blogItem)).resolves.toEqual('foo')
     })
 
     it('returns a BlogItem when found by URL', async () => {
         // Arrange
-        const blogItem: BlogItem = jest.mock('../../../src/entities/BlogItem') as unknown as BlogItem
+        const blogItem: BlogItem = jest.mock(blogItemEntityPath) as unknown as BlogItem
 
         const repository = jest.fn<BlogRepositoryInterface, []>(() => ({
             fetchItemList: (): Promise<BlogItem[]> => new Promise(resolve => resolve([ blogItem])),
@@ -48,13 +48,12 @@ describe('BlogService', () => {
         const service = new BlogService(new repository, [])
 
         // Act / Assert
-        expect.assertions(1)
-        await expect(service.findByUri(blogItem.uri)).resolves.toEqual([ blogItem ])
+        expect(service.findByUri(blogItem.uri)).resolves.toEqual([ blogItem ])
     })
 
     it('renders a BlogItem to HTML', () => {
         // Arrange
-        const blogItem: BlogItem = jest.mock('../../../src/entities/BlogItem') as unknown as BlogItem
+        const blogItem: BlogItem = jest.mock(blogItemEntityPath) as unknown as BlogItem
         const mockContent = 'foo'
 
         const repository = jest.fn<BlogRepositoryInterface, []>(() => ({
