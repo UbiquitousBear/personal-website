@@ -90,7 +90,7 @@ describe('Container', () => {
         expect(() => container.set(id, callable)).toThrow(error)
     })
 
-    it('passes_the_container_into_the_callable', () => {
+    it('passes the container into the callable', () => {
         // Arrange
         const collaboratorId = 'collaborator.test.value'
         const collaboratorCallable = () => 'bar'
