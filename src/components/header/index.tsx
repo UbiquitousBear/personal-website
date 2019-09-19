@@ -17,9 +17,9 @@ class Header extends Component {
           <Container>
             <NavbarBrand href="/">Shamil Nunhuck</NavbarBrand>
             <Nav className="ml-auto" navbar={true}>
-              <NavItem>
+              {/* <NavItem>
                 <NavLink href="/curriculum-vitae" >CV / Resume</NavLink>
-              </NavItem>
+              </NavItem> */}
               <NavItem>
                 <NavLink href="/blog">Blog</NavLink>
               </NavItem>
