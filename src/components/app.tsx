@@ -1,4 +1,4 @@
-import { Component, h } from 'preact'
+import { Component, ComponentClass, h } from 'preact'
 import { Route, Router, RouterOnChangeArgs } from 'preact-router'
 import AppContainer from '../config/AppContainer'
 import CurriculumVitae from '../routes/curriculum-vitae'
@@ -6,9 +6,9 @@ import Footer from './footer'
 import Header from './header'
 
 const container = new AppContainer()
-const Home = container.get(AppContainer.HOME_COMPONENT)
-const BlogPost = container.get(AppContainer.BLOG_POST_COMPONENT)
-const Blog = container.get(AppContainer.BLOG_COMPONENT)
+const Home = container.get<ComponentClass>(AppContainer.HOME_COMPONENT)
+const BlogPost = container.get<ComponentClass>(AppContainer.BLOG_POST_COMPONENT)
+const Blog = container.get<ComponentClass>(AppContainer.BLOG_COMPONENT)
 
 export default class App extends Component {	
 	private currentUrl ?: string
