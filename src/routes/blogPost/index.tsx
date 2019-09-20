@@ -42,16 +42,11 @@ class BlogPost extends Component<BlogPostProps> {
     private renderBlogContent(blogItem: BlogItem, blogItemContent: string) {
         return(
             <div>
-                <div class={style.postHeading}>
-                    <Container>
+                <Container>
+                    <div class={style.postHeading}>
                         <h1>{ blogItem.title }</h1>
-                        <p>
-                            <small>
-                                { this.buildMetadata(blogItem) }
-                            </small>
-                        </p>
-                    </Container>
-                </div>
+                    </div>
+                </Container>
                 <div class={style.postContent}>
                     <Container>
                         <div dangerouslySetInnerHTML={{ __html: blogItemContent }} />
