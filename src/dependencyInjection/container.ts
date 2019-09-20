@@ -3,7 +3,7 @@ import ContainerError from './error/ContainerError'
 import NotFoundError from './error/NotFoundError'
 
 class Container implements ContainerInterface {
-    private instanceCallableCollection: { [key: string]: CallableFunction } = {}
+    private instanceCallableCollection: { [key: string]: (c: ContainerInterface) => any } = {}
     private instanceCacheCollection: { [key: string]: any } = {}
 
     public get<T>(id: string): T {
@@ -12,10 +12,10 @@ class Container implements ContainerInterface {
         }
 
         if (this.instanceCacheCollection.hasOwnProperty(id)){
-            return this.instanceCacheCollection[id]
+            return this.instanceCacheCollection[id] as T
         }
 
-        this.instanceCacheCollection[id] = this.instanceCallableCollection[id](this)
+        this.instanceCacheCollection[id] = this.instanceCallableCollection[id](this) as T
 
         return this.instanceCacheCollection[id]
     }
@@ -24,7 +24,7 @@ class Container implements ContainerInterface {
         return this.instanceCallableCollection.hasOwnProperty(id)
     }
 
-    public set(id: string, callable: CallableFunction): void {
+    public set<T>(id: string, callable: (c: ContainerInterface) => T): void {
         this.validateNotEmpty(id)
         this.validateIdIsNotAlreadyAnInstance(id)
         this.instanceCallableCollection[id] = callable
@@ -41,6 +41,7 @@ class Container implements ContainerInterface {
             throw new ContainerError(`ID ${id} already set`)
         }
     }
+    
 }
 
 export default Container
