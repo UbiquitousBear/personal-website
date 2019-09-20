@@ -34,7 +34,7 @@ class AppContainer extends Container {
     }
 
     private initConfig(): void {
-        this.set(AppContainer.CONFIG, () => {
+        this.set<{ [key: string]: string }>(AppContainer.CONFIG, () => {
             const config: { [key: string]: string } = {}
             CONFIG_KEYS.forEach((value: string) => {
                 config[value] = '/content/blog' // TODO: fetch config from somewhere
@@ -46,48 +46,48 @@ class AppContainer extends Container {
     }
 
     private initServices(): void {
-        this.set(AppContainer.HTML_SANITIZER_RENDERER, ((container: ContainerInterface): HTMLSanitizer => {
+        this.set<RendererInterface>(AppContainer.HTML_SANITIZER_RENDERER, ((): HTMLSanitizer => {
             return new HTMLSanitizer()
         }))
 
-        this.set(AppContainer.MARKDOWN_CODE_RENDERER, ((container: ContainerInterface): MarkdownCodeHighlight => {
+        this.set<RendererInterface>(AppContainer.MARKDOWN_CODE_RENDERER, ((): MarkdownCodeHighlight => {
             return new MarkdownCodeHighlight(['markup-templating', 'java', 'javascript', 'typescript', 'php'])
         }))
 
-        this.set(AppContainer.BLOG_REPOSITORY, ((container: ContainerInterface): BlogRepositoryInterface => {
-            const config: { BLOG_REPOSITORY_API: string } = container.get(AppContainer.CONFIG)
+        this.set<BlogRepositoryInterface>(AppContainer.BLOG_REPOSITORY, ((c: ContainerInterface): BlogRepositoryInterface => {
+            const config: { BLOG_REPOSITORY_API: string } = c.get(AppContainer.CONFIG)
             return new HttpApi(config.BLOG_REPOSITORY_API)
         }))
         
-        this.set(AppContainer.BLOG_SERVICE, ((container: ContainerInterface): BlogServiceInterface => {
+        this.set<BlogServiceInterface>(AppContainer.BLOG_SERVICE, ((c: ContainerInterface): BlogServiceInterface => {
             return new BlogService(
-                container.get(AppContainer.BLOG_REPOSITORY),
+                c.get(AppContainer.BLOG_REPOSITORY),
                 [ 
-                    container.get<RendererInterface>(AppContainer.MARKDOWN_CODE_RENDERER),
-                    container.get<RendererInterface>(AppContainer.HTML_SANITIZER_RENDERER)
+                    c.get<RendererInterface>(AppContainer.MARKDOWN_CODE_RENDERER),
+                    c.get<RendererInterface>(AppContainer.HTML_SANITIZER_RENDERER)
                 ]
             )
         }))
     }
 
     private initComponents(): void {
-        this.set(AppContainer.HOME_COMPONENT, ((container: ContainerInterface): ComponentClass => {
+        this.set<ComponentClass>(AppContainer.HOME_COMPONENT, ((c: ContainerInterface): ComponentClass => {
             const props: HomeProps = {
-                dependencies: { blogService: container.get<BlogServiceInterface>(AppContainer.BLOG_SERVICE)}
+                dependencies: { blogService: c.get<BlogServiceInterface>(AppContainer.BLOG_SERVICE)}
             }
             return WrappedComponent(props)(Home)
         }))
 
-        this.set(AppContainer.BLOG_POST_COMPONENT, ((container: ContainerInterface): ComponentClass => {
+        this.set<ComponentClass>(AppContainer.BLOG_POST_COMPONENT, ((c: ContainerInterface): ComponentClass => {
             const props: BlogPostProps = {
-                dependencies: { blogService: container.get<BlogServiceInterface>(AppContainer.BLOG_SERVICE) }
+                dependencies: { blogService: c.get<BlogServiceInterface>(AppContainer.BLOG_SERVICE) }
             }
             return WrappedComponent(props)(BlogPost)
         }))
 
-        this.set(AppContainer.BLOG_COMPONENT, ((container: ContainerInterface): ComponentClass => {
+        this.set<ComponentClass>(AppContainer.BLOG_COMPONENT, ((c: ContainerInterface): ComponentClass => {
             const props: HomeProps = {
-                dependencies: { blogService: container.get<BlogServiceInterface>(AppContainer.BLOG_SERVICE)}
+                dependencies: { blogService: c.get<BlogServiceInterface>(AppContainer.BLOG_SERVICE)}
             }
             return WrappedComponent(props)(Blog)
         }))
