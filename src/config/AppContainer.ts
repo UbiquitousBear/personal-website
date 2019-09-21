@@ -3,6 +3,7 @@ import Container from '../dependencyInjection/container'
 import ContainerInterface from '../dependencyInjection/containerInterface'
 import WrappedComponent from '../dependencyInjection/wrappedComponent'
 import BlogRepositoryInterface from '../repositories/Blog/BlogRepositoryInterface'
+import CachedEntity from '../repositories/Blog/CachedEntity'
 import HttpApi from '../repositories/Blog/HttpApi'
 import Blog from '../routes/blog'
 import BlogPost, { BlogPostProps } from '../routes/blogPost'
@@ -18,13 +19,13 @@ class AppContainer extends Container {
 
     public static readonly CONFIG = 'CONFIG'
     public static readonly BLOG_SERVICE = 'BLOG_SERVICE'
+    public static readonly BLOG_HTTP_API_REPOSITORY = 'BLOG_HTTP_API_REPOSITORY'
     public static readonly BLOG_REPOSITORY = 'BLOG_REPOSITORY'
     public static readonly HOME_COMPONENT = 'HOME_COMPONENT'
     public static readonly BLOG_COMPONENT = 'BLOG_COMPONENT'
     public static readonly BLOG_POST_COMPONENT = 'BLOG_POST_COMPONENT'
     public static readonly MARKDOWN_CODE_RENDERER = 'MARKDOWN_CODE_RENDERER'
     public static readonly HTML_SANITIZER_RENDERER = 'HTML_SANITIZER_RENDERER'
-
 
     constructor() {
         super()
@@ -54,7 +55,11 @@ class AppContainer extends Container {
             return new MarkdownCodeHighlight(['markup-templating', 'java', 'javascript', 'typescript', 'php'])
         }))
 
-        this.set<BlogRepositoryInterface>(AppContainer.BLOG_REPOSITORY, ((c: ContainerInterface): BlogRepositoryInterface => {
+        this.set<BlogRepositoryInterface>(AppContainer.BLOG_REPOSITORY, ((c: ContainerInterface) => {
+            return new CachedEntity(c.get<BlogRepositoryInterface>(AppContainer.BLOG_HTTP_API_REPOSITORY))
+        }))
+
+        this.set<BlogRepositoryInterface>(AppContainer.BLOG_HTTP_API_REPOSITORY, ((c: ContainerInterface): BlogRepositoryInterface => {
             const config: { BLOG_REPOSITORY_API: string } = c.get(AppContainer.CONFIG)
             return new HttpApi(config.BLOG_REPOSITORY_API)
         }))
