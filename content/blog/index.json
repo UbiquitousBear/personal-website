@@ -4,6 +4,9 @@
         "publishDate": "2016-01-05T00:00:00Z",
         "summary": "An overview of a pattern that literally has one job: is this true or false?",
         "uri": "a-brief-to-the-specification-pattern",
+        "tags": [
+            { "name": "Engineering" }
+        ],
         "content": {
             "path": "/content/a-brief-to-the-specification-pattern.md",
             "contentType": "text/markdown"
@@ -14,8 +17,24 @@
         "publishDate": "2015-12-25T00:00:00Z",
         "summary": "How I applied criteria to Doctrine collections before or after loading data.",
         "uri": "rescued-by-doctrine-collections-criteria",
+        "tags": [
+            { "name": "Engineering" }
+        ],
         "content": {
             "path": "/content/rescued-by-doctrine-collections-criteria.md",
+            "contentType": "text/markdown"
+        }
+    },
+    {
+        "title": "Encapsulating requirements with the specification pattern",
+        "publishDate": "2019-09-18T00:00:00Z",
+        "summary": "Using the Specification Pattern to classify aviation weather conditions.",
+        "uri": "using-the-specification-pattern-to-classify-aviation-weather-conditions",
+        "tags": [
+            { "name": "Engineering" }
+        ],
+        "content": {
+            "path": "/content/using-the-specification-pattern-to-classify-aviation-weather-conditions.md",
             "contentType": "text/markdown"
         }
     }

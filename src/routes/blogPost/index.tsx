@@ -1,10 +1,9 @@
 import { faCalendar, faClock } from '@fortawesome/free-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Component, h } from 'preact'
-import { Container } from 'reactstrap'
 import BlogItem from '../../entities/BlogItem'
 import BlogServiceInterface from '../../services/Blog/BlogServiceInterface'
-import * as style from './style.css'
+import * as template from './template'
 
 interface BlogPostProps {
     matches?: { uri: string }, 
@@ -23,45 +22,14 @@ class BlogPost extends Component<BlogPostProps> {
 		this.blogService = props.dependencies!.blogService
     }
     
-    public componentDidMount() {
+    public componentWillMount() {
 		this.getFirstBlogItemContent(this.uri)
 	}
 
-    public render({}: BlogPostProps, { blogItemContent , blogItem }) {
-        if (blogItem) {
-            return this.renderBlogContent(blogItem, blogItemContent)
-        } 
-
-        if (this.state.notFound) {
-            return this.renderBlogItemNotFound()
-        }
-
+    public render({}: BlogPostProps, { blogItemContent, blogItem }) {
+        if (blogItem && !this.state.notFound) { return template.BlogContent(blogItem, blogItemContent) } 
+        if (this.state.notFound) { return template.NotFound }
         return(<div/>)
-    }
-
-    private renderBlogContent(blogItem: BlogItem, blogItemContent: string) {
-        return(
-            <div>
-                <Container>
-                    <div class={style.postHeading}>
-                        <h1>{ blogItem.title }</h1>
-                    </div>
-                </Container>
-                <div class={style.postContent}>
-                    <Container>
-                        <div dangerouslySetInnerHTML={{ __html: blogItemContent }} />
-                    </Container>
-                </div>
-            </div>
-        )
-    }
-
-    private renderBlogItemNotFound() {
-        return (
-            <div class={style.container}>
-                <h1>Post Not Found!</h1>
-            </div>
-        )
     }
 
     private getFirstBlogItemContent(uri: string) {
@@ -77,12 +45,11 @@ class BlogPost extends Component<BlogPostProps> {
             return this.blogService.renderBlogToHtml(item)
             .then((content: string) => this.setState({ blogItemContent: content, blogItem: item }))
         })
-        .catch((error: Error) => this.setBlogItemNotFound())
+        .catch(() => this.setBlogItemNotFound())
     }
     
-    private formatDateString(dateString: string): string {
-		const date = new Date(dateString)
-		return date.toLocaleDateString("en-GB", { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
+    private formatDateString(date: Date): string {
+		return date.toLocaleDateString('en-GB', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
     }
     
     private buildMetadata(blogItem: BlogItem) {

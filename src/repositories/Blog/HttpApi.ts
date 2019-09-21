@@ -7,7 +7,7 @@ class HttpApi implements BlogRepositoryInterface {
     ) {}
 
     public async fetchItemList(): Promise<BlogItem[]> {
-        const response = await fetch(this.baseUrl + '/index.json')
+        const response = await fetch(`${this.baseUrl}/index.json`)
         if (!response.ok) {
             throw new RepositoryError(response)
         }
@@ -15,7 +15,7 @@ class HttpApi implements BlogRepositoryInterface {
     }
 
     public async fetchItemContent(item: BlogItem): Promise<string> {
-        const response = await fetch(this.baseUrl + item.content.path)
+        const response = await fetch(`${this.baseUrl}${item.content.path}`)
         return await response.text()
     }
 }
