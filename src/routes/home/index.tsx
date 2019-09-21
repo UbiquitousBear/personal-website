@@ -38,7 +38,7 @@ class Home extends Component<HomeProps> {
 							<img src="/assets/img/qEGeFOOE_200x200.jpg" alt="Shamil's Photo" className={ style.profileImg } />
 						</Col>
 					</Row>
-					<Row>
+					<Row className={ style.contentRealm}>
 						<Col sm="6">
 						<p>
 						I'm a engineer: both in site reliability and software. I believe in abstracting ideas to see what works best for each situation. Putting my ScrumMaster hat on, no team
