@@ -1,0 +1,8 @@
+
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: shamilweb
+spec:
+  maxReplicas: 10
+  minReplicas: 3

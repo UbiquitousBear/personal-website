@@ -6,7 +6,7 @@ metadata:
   labels:
     app: shamilweb
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: shamilweb
@@ -22,8 +22,11 @@ spec:
     spec:
       containers:
         - name: shamilweb
-          image: registry.runway.sh/shamil/personal-website:<VERSION>
+          image: registry.runway.sh/shamil/personal-website:latest
           ports:
             - containerPort: 8080
+          envFrom:
+            - configMapRef:
+                name: shamilweb-config
       imagePullSecrets:
         - name: gitlab-registry

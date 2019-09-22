@@ -85,10 +85,14 @@ build-image:
       --destination ${IMAGE_NAME}:${IMAGE_TAG}
       --destination ${IMAGE_NAME}:latest
 
-deploy:
+deploy_production:
   stage: release
   only: [ master ]
   image: dtzar/helm-kubectl
+  environment:
+    name: production
+    url: https://shamil.co.uk
+
   script:
     - kubectl config set-cluster k8s --server="${SERVER}"
     - kubectl config set clusters.k8s.certificate-authority-data ${CERTIFICATE_AUTHORITY_DATA}
@@ -103,5 +107,6 @@ deploy:
                       --docker-email=$GITLAB_USER_EMAIL
                       --output yaml
                       --dry-run | kubectl apply -n $KUBERNETES_NAMESPACE -f -
-    - sed -i "s/<VERSION>/${IMAGE_TAG}/g" deployment.yaml
-    - kubectl apply -f deployment.yaml
+    - sed -i "s/<VERSION>/${IMAGE_TAG}/g" kubernetes/overlays/production/kustomization.yaml
+    - kubectl apply --dry-run -k kubernetes/overlays/production
+    - kubectl apply -k kubernetes/overlays/production
