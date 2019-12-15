@@ -6,6 +6,7 @@ stages:
 variables:
   IMAGE_NAME: registry.runway.sh/shamil/personal-website
   IMAGE_TAG: ${CI_COMMIT_SHA}
+  KUBERNETES_NAMESPACE: shamil
 
 .cache: &cache
   key: shamilweb_node_modules
@@ -102,8 +103,8 @@ deploy_production:
     - kubectl create secret --namespace=$KUBERNETES_NAMESPACE
                       docker-registry gitlab-registry
                       --docker-server=$CI_REGISTRY
-                      --docker-username=kubernetes
-                      --docker-password=$REGISTRY_TOKEN
+                      --docker-username=CI_REGISTRY_USER
+                      --docker-password=$CI_REGISTRY_PASSWORD
                       --docker-email=$GITLAB_USER_EMAIL
                       --output yaml
                       --dry-run | kubectl apply -n $KUBERNETES_NAMESPACE -f -
