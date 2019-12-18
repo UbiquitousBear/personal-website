@@ -98,7 +98,7 @@ deploy_production:
     - kubectl config set-cluster k8s --server="${SERVER}"
     - kubectl config set clusters.k8s.certificate-authority-data ${CERTIFICATE_AUTHORITY_DATA}
     - kubectl config set-credentials gitlab-service-account --token="${USER_TOKEN}"
-    - kubectl config set-context default --cluster=k8s --user=gitlab
+    - kubectl config set-context default --cluster=k8s --user=gitlab-service-account
     - kubectl config use-context default
     - kubectl create secret --namespace=$KUBERNETES_NAMESPACE
                       docker-registry gitlab-registry
