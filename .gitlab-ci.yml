@@ -107,7 +107,4 @@ deploy_production:
                       --docker-password=${DEPLOY_TOKEN_PASSWORD}
                       --docker-email=$GITLAB_USER_EMAIL
                       --output yaml
-                      --dry-run | kubectl apply -n $KUBERNETES_NAMESPACE -f -
-    - sed -i "s/<VERSION>/${IMAGE_TAG}/g" kubernetes/overlays/production/kustomization.yaml
-    - kubectl apply --dry-run -k kubernetes/overlays/production
-    - kubectl apply -k kubernetes/overlays/production
+                      --dry-run
