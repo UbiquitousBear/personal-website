@@ -100,6 +100,14 @@ deploy_production:
     - kubectl config set-credentials gitlab-service-account --token="${USER_TOKEN}"
     - kubectl config set-context gitlab@k8s --cluster=k8s --user=gitlab-service-account
     - kubectl config use-context gitlab@k8s
+    - kubectl create secret --namespace=$KUBERNETES_NAMESPACE
+          docker-registry gitlab-registry
+          --docker-server=$CI_REGISTRY
+          --docker-username=kubernetes
+          --docker-password=$REGISTRY_TOKEN
+          --docker-email=$GITLAB_USER_EMAIL
+          --output yaml
+          --dry-run | kubectl apply -n $KUBERNETES_NAMESPACE -f -
     - sed -i "s/<VERSION>/${IMAGE_TAG}/g" kubernetes/overlays/production/kustomization.yaml
     - kubectl apply --dry-run -k kubernetes/overlays/production
     - kubectl apply -k kubernetes/overlays/production
