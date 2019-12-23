@@ -70,7 +70,7 @@ class Home extends Component<HomeProps> {
 						</Col>
 						<Col sm="6">
 						{ blogItems.map((blogItem: BlogItem) => (
-							<Row sm="6">
+							<Row sm="12">
 								<h5><a href={ this.buildBlogUrl(blogItem) }>{ blogItem.title }</a></h5>
 								<p>{ blogItem.summary }</p>
 							</Row>
