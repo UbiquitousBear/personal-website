@@ -95,19 +95,4 @@ deploy_production:
     url: https://shamil.co.uk
 
   script:
-    - kubectl config set-cluster k8s --server="${SERVER}"
-    - kubectl config set clusters.k8s.certificate-authority-data ${CERTIFICATE_AUTHORITY_DATA}
-    - kubectl config set-credentials gitlab-service-account --token="${USER_TOKEN}"
-    - kubectl config set-context gitlab@k8s --cluster=k8s --user=gitlab-service-account
-    - kubectl config use-context gitlab@k8s
-    - kubectl create secret --namespace=$KUBERNETES_NAMESPACE
-          docker-registry gitlab-registry
-          --docker-server=$CI_REGISTRY
-          --docker-username=$DEPLOY_TOKEN_USERNAME
-          --docker-password=$DEPLOY_TOKEN_PASSWORD
-          --docker-email=$GITLAB_USER_EMAIL
-          --output yaml
-          --dry-run | kubectl apply -n $KUBERNETES_NAMESPACE -f -
-    - sed -i "s/<VERSION>/${IMAGE_TAG}/g" kubernetes/overlays/production/kustomization.yaml
-    - kubectl apply --dry-run -k kubernetes/overlays/production
-    - kubectl apply -k kubernetes/overlays/production
+    - echo "Automatic Deployment"

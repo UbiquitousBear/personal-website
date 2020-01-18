@@ -1,5 +1,3 @@
-import { faCalendar, faClock } from '@fortawesome/free-regular-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Component, h } from 'preact'
 import BlogItem from '../../entities/BlogItem'
 import BlogServiceInterface from '../../services/Blog/BlogServiceInterface'
@@ -50,16 +48,6 @@ class BlogPost extends Component<BlogPostProps> {
     
     private formatDateString(date: Date): string {
 		return date.toLocaleDateString('en-GB', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
-    }
-    
-    private buildMetadata(blogItem: BlogItem) {
-        return (
-            <div>
-                <span class="text-muted">
-                    <FontAwesomeIcon icon={ faCalendar } /> { this.formatDateString(blogItem.publishDate) } <FontAwesomeIcon icon={ faClock } /> 5 minutes
-                </span>
-            </div>
-        )
     }
 
     private setBlogItemNotFound(): void {
