@@ -4,7 +4,7 @@ stages:
   - release
 
 variables:
-  IMAGE_NAME: registry.runway.sh/shamil/personal-website
+  IMAGE_NAME: ${CI_REGISTRY_IMAGE}
   IMAGE_TAG: ${CI_COMMIT_SHA}
   KUBERNETES_NAMESPACE: shamil
 
@@ -62,7 +62,7 @@ build-app:
     <<: *cache
     policy: pull
   script:
-    - npm run build-no-prerender
+    - npm run build
     - cp -r content build/
 
 ##
@@ -86,13 +86,3 @@ build-image:
       --destination ${IMAGE_NAME}:${IMAGE_TAG}
       --destination ${IMAGE_NAME}:latest
 
-deploy_production:
-  stage: release
-  only: [ master ]
-  image: dtzar/helm-kubectl
-  environment:
-    name: production
-    url: https://shamil.co.uk
-
-  script:
-    - echo "Automatic Deployment"

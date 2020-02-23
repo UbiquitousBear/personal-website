@@ -32,7 +32,7 @@ class Home extends Component<HomeProps> {
 					<Row>
 						<Col xs="10">
 							<h1>Hi, I'm Shamil.</h1>
-							<p className="lead">I'm a London-based software engineer, currently working as a Production Engineer.</p>
+							<p className="lead">A <abbr title="read: Site Reliability Engineer">Production Engineer</abbr>, based in London</p>
 						</Col>
 						<Col xs="2">
 							<img src="/assets/img/qEGeFOOE_200x200.jpg" alt="Shamil's Photo" className={ style.profileImg } />
@@ -41,8 +41,7 @@ class Home extends Component<HomeProps> {
 					<Row className={ style.contentRealm}>
 						<Col sm="6">
 						<p>
-						I'm a engineer: both in site reliability and software. I believe in abstracting ideas to see what works best for each situation. Putting my ScrumMaster hat on, no team
-						is ever the same, and I am focused on helping teams produce maximum value. When it comes to engineering challenges, I always defer to my experience as an engineer but also rely on my operational knowledge to complement solutions.
+						I'm a site reliability engineer: applying software engineering principles to operations/infrastructure. I believe in abstracting ideas and incrementally building hypotheses to see what works best for each situation. When it comes to engineering challenges, I always defer to my experience as a software engineer but also rely on my operational knowledge to complement solutions.
 						</p>
 						<p>
 						In my spare time I write web and service applications as well as entertain deep discussions about software patterns
@@ -59,13 +58,13 @@ class Home extends Component<HomeProps> {
 						</p>
 						<p>
 						In my spare time, I'm learning functional programming with Scala simply because I recognise that the different paradigms
-						enable for a unique advantages.. but it always forces me to think in a completely new way.
+						enable for unique advantages... but it always forces me to think in a completely new way.
 						</p>
 						<p>
 						Stepping away from the computer, I am learning new (human) languages, enjoy reading and weight lifting.
 						</p>
 						<p>
-						I also love flying? I have a pilot's license and I've always said that my office is in the sky!
+						I also love flying. I have a pilot's license and I've long said that my office is in the sky!
 						</p>
 						</Col>
 						<Col sm="6">
