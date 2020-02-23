@@ -1,12 +1,5 @@
 import { Component, h } from 'preact'
-import {
-  Container,
-  Nav,
-  Navbar,
-  NavbarBrand,
-  NavItem,
-  NavLink,
-} from 'reactstrap'
+import { Container, Nav, Navbar, NavbarBrand, NavItem, NavLink } from 'reactstrap'
 
 class Header extends Component {
 
@@ -21,7 +14,7 @@ class Header extends Component {
                 <NavLink href="/curriculum-vitae" >CV / Resume</NavLink>
               </NavItem> */}
               <NavItem>
-                <NavLink href="/blog">Blog</NavLink>
+                <NavLink href="/blog/">Blog</NavLink>
               </NavItem>
             </Nav>
           </Container>

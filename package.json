@@ -13,8 +13,7 @@
         "lint": "tslint --project .",
         "lint-fix": "tslint --project . --fix",
         "test": "jest ./tests",
-        "precommit": "lint-staged",
-        "build-no-prerender": "preact build --no-prerender"
+        "precommit": "lint-staged"
     },
     "lint-staged": {
         "*.{js,jsx,css,md,scss}": [
@@ -70,8 +69,7 @@
         "preact-render-to-string": "^5.0.6",
         "preact-router": "^3.0.1",
         "prismjs": "^1.17.1",
-        "reactstrap": "^8.0.1",
-        "webfontloader": "^1.6.28"
+        "reactstrap": "^8.0.1"
     },
     "peerDependencies": {
         "prettier": ">1.0.0",
