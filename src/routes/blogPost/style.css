@@ -14,6 +14,10 @@
   background: transparent;
 }
 
+.tag-btn {
+  margin-right: 5px;
+}
+
 .tag-btn:hover {
   background-color: #0062cc;
   border-color: #005cbf;
