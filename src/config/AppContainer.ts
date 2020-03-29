@@ -40,8 +40,8 @@ class AppContainer extends Container {
         this.set<{ [key: string]: string }>(AppContainer.CONFIG, () => {
             const config: { [key: string]: string } = {}
             CONFIG_KEYS.forEach((value: string) => {
-                // config[value] = '/content/blog' // TODO: fetch config from somewhere
-                config[value] = 'http://localhost:8090/blog' // TODO: fetch config from somewhere
+                config[value] = '/content/blog' // TODO: fetch config from somewhere
+                // config[value] = 'http://localhost:8090/blog' // TODO: fetch config from somewhere
             })
 
             return config
