@@ -9,11 +9,17 @@ body {
   margin: 0 0 80px;
   font-family: "Nunito", "Avenir Next", Avenir, "Helvetica Neue", Helvetica,
     Arial, sans-serif !important;
-  font-size: 15px;
+  font-size: 16px;
 }
 
 a {
-  color: #428bca;
+  color: #5183f5;
+  text-decoration: none;
+  border-bottom: 2px solid #e2eafd;
+}
+
+.container a:hover {
+  color: #003d7a;
   text-decoration: none;
 }
 
@@ -31,9 +37,13 @@ h3,
   border-bottom: 1px solid #e7e7e7;
 }
 
+.navbar a {
+  border-bottom: none;
+}
+
 .navbar {
   background-color: #fff;
-  color: #444f64;
+  color: #000;
 }
 
 .navbar-brand small {
@@ -51,23 +61,16 @@ h3,
 }
 
 .navbar-nav > li > a {
-  -moz-transition: all 0.25s ease-in-out;
-  -webkit-transition: all 0.25s ease-in-out;
-  -o-transition: all 0.25s ease-in-out;
-  -ms-transition: all 0.25s ease-in-out;
-  transition: all 0.25s ease-in-out;
   color: #444f64 !important;
   height: 40px;
+  margin: 5px;
 }
 
-.nav > li > a:hover,
-.nav > li > a:focus {
-  -moz-transition: all 0.25s ease-in-out;
-  -webkit-transition: all 0.25s ease-in-out;
-  -o-transition: all 0.25s ease-in-out;
-  -ms-transition: all 0.25s ease-in-out;
-  transition: all 0.25s ease-in-out;
-  color: #000 !important;
+.navbar-nav > li > a:hover,
+.navbar-nav > li > a:focus {
+  background-color: #e2e6ea;
+  border-color: #dae0e5;
+  border-radius: 0.2rem;
 }
 
 .ul.nav.navbar-nav {

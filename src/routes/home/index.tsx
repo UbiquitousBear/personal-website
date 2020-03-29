@@ -1,5 +1,5 @@
 import { Component, h } from 'preact'
-import { Col, Container, Row } from 'reactstrap'
+import { Badge, Button, Col, Container, Row } from 'reactstrap'
 import BlogItem from '../../entities/BlogItem'
 import BlogServiceInterface from '../../services/Blog/BlogServiceInterface'
 import * as style from './style.css'
@@ -22,7 +22,7 @@ class Home extends Component<HomeProps> {
 
 	public componentDidMount() {
 		this.getBlogItems()
-		document.title = 'About Shamil'
+		document.title = 'Shamil Nunhuck - Site Reliability Engineer'
 	}
 
 	public render({}: HomeProps, { blogItems }) {
@@ -30,49 +30,24 @@ class Home extends Component<HomeProps> {
 			<div className={ style.home }>
 				<Container>
 					<Row>
-						<Col xs="10">
+						<Col xs="12">
 							<h1>Hi, I'm Shamil.</h1>
-							<p className="lead">A <abbr title="read: Site Reliability Engineer">Production Engineer</abbr>, based in London</p>
+						</Col>
+						<Col xs="10">
+							<p className="lead">I'm a London-based Site Reliability Engineer with an interest in software architecture and distributed systems. Having worked in both devops and software engineering roles, I harness my experience to build and consult on reliable, scalable systems.</p>
 						</Col>
 						<Col xs="2">
-							<img src="/assets/img/qEGeFOOE_200x200.jpg" alt="Shamil's Photo" className={ style.profileImg } />
+							<img src="/assets/img/qEGeFOOE_200x200.jpg" alt="Shamil's Photo" className={ style.profileImg } height="200px" width="200px"/>
 						</Col>
 					</Row>
-					<Row className={ style.contentRealm}>
-						<Col sm="6">
-						<p>
-						I'm a site reliability engineer: applying software engineering principles to operations/infrastructure. I believe in abstracting ideas and incrementally building hypotheses to see what works best for each situation. When it comes to engineering challenges, I always defer to my experience as a software engineer but also rely on my operational knowledge to complement solutions.
-						</p>
-						<p>
-						In my spare time I write web and service applications as well as entertain deep discussions about software patterns
-						and architures - a <a href="http://www.amazon.co.uk/dp/0321127420">book</a> by Martin Fowler is always within reach!
-						</p>
-						<p>
-						I'm a maintainer of an IRC bot residing on multiple <abbr title="Internet Relay Chat">IRC</abbr> networks,
-						providing fun and utility functionalities
-						and have released a few <a href="https://github.com/theTeddyBear/textual-whisper">themes</a> for the Textual IRC client on OS X.
-						Most of my projects are private, as I tend to write for specific things in mind, but I sometimes release my code on <a href="https://github.com/UbiquitousBear/">GitHub</a>.
-						</p>
-						<p>
-						Beside software engineering, I'm also heavily involved in infrastructure and operations. Yes, I have fun setting up kubernetes clusters and administering them. This website is hosted on a personal k8s cluster, with namespaces separating projects. I follow a full SDLC from issue tracking to deployment using CI and CD pipelines.
-						</p>
-						<p>
-						In my spare time, I'm learning functional programming with Scala simply because I recognise that the different paradigms
-						enable for unique advantages... but it always forces me to think in a completely new way.
-						</p>
-						<p>
-						Stepping away from the computer, I am learning new (human) languages, enjoy reading and weight lifting.
-						</p>
-						<p>
-						I also love flying. I have a pilot's license and I've long said that my office is in the sky!
-						</p>
-						</Col>
-						<Col sm="6">
+					<Row className={ style.contentRealm }>
+						<Col sm="12">
+							<h3>Latest Posts <Button color="light" href="/blog" size="sm">View All</Button></h3>
 						{ blogItems.map((blogItem: BlogItem) => (
-							<Row sm="12">
-								<h5><a href={ this.buildBlogUrl(blogItem) }>{ blogItem.title }</a></h5>
-								<p>{ blogItem.summary }</p>
-							</Row>
+							<Button className={ style.postButton } block={true} href={ this.buildBlogUrl(blogItem) }>
+								{ blogItem.title }
+								{ this.renderNewBadge(blogItem) }
+							</Button>
 						)) }
 						</Col>
 					</Row>
@@ -88,6 +63,19 @@ class Home extends Component<HomeProps> {
 
 	private buildBlogUrl (blogItem: BlogItem): string {
 		return '/blog/' + blogItem.uri 
+	}
+
+	private renderNewBadge (blogItem: BlogItem) {
+		const dateOneMonthAgo = new Date()
+		dateOneMonthAgo.setMonth(dateOneMonthAgo.getMonth() - 1)
+		
+		if (new Date(blogItem.publishDate) > dateOneMonthAgo) {
+			return (
+				<Badge className={ style.badgeNew }>New!</Badge>
+			)
+		}
+
+		return ''
 	}
 }
 

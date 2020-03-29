@@ -2,3 +2,5 @@
 export const home: string
 export const profileImg: string
 export const contentRealm: string
+export const postButton: string
+export const badgeNew: string

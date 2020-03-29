@@ -7,6 +7,7 @@ import Header from './header'
 
 const container = new AppContainer()
 const Home = container.get<ComponentClass>(AppContainer.HOME_COMPONENT)
+const AboutMe = container.get<ComponentClass>(AppContainer.ABOUTME_COMPONENT)
 const BlogPost = container.get<ComponentClass>(AppContainer.BLOG_POST_COMPONENT)
 const Blog = container.get<ComponentClass>(AppContainer.BLOG_COMPONENT)
 
@@ -23,8 +24,7 @@ export default class App extends Component {
 					<Route path="/" component={Home} />
 					<Route path="/blog/" component={Blog} />
 					<Route path="/blog/:uri" component={BlogPost} />
-					<Route path="/profile/" component={CurriculumVitae} user="me" />
-					<Route path="/profile/:user" component={CurriculumVitae} />
+					<Route path="/me" component={AboutMe} />
 				</Router>
 				<Footer />
 			</div>
