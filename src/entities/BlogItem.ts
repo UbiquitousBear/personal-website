@@ -1,4 +1,5 @@
 import BlogContent from './BlogContent'
+import BlogIcon from './BlogIcon'
 import BlogTag from './BlogTag'
 
 class BlogItem {
@@ -10,6 +11,7 @@ class BlogItem {
         readonly uri: string,
         readonly tags: BlogTag[],
         readonly content: BlogContent,
+        readonly icon: BlogIcon
     ) {}
 
 }

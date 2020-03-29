@@ -22,7 +22,7 @@ img.profile-img {
   background-color: transparent !important;
   border: none !important;
   color: #000 !important;
-  padding: 15px 10px;
+  padding: 15px 10px !important;
   text-shadow: none !important;
 }
 
