@@ -1,5 +1,5 @@
 import { Component, h } from 'preact'
-import { Col, Container, Row } from 'reactstrap'
+import { Badge, Col, Container, Row } from 'reactstrap'
 import BlogItem from '../../entities/BlogItem'
 import BlogServiceInterface from '../../services/Blog/BlogServiceInterface'
 import * as style from './style.css'
@@ -27,25 +27,32 @@ class Blog extends Component<BlogProps> {
 
     public render({}: BlogProps, { blogItems }) {
         return (
+            <Container>
             <div>
                 <div class={ style.pageHeader }>
-                    <Container>
-                        <h1>Blog Posts</h1>
-                        <p class="lead">My thoughts, theories and ramblings</p>
-                    </Container>
+                    <h1>Blog Posts</h1>
+                    <p class="lead">My thoughts, theories and ramblings</p>
                 </div>
                 <div class={ style.pageContent }>
-                    <Container>
-                        { blogItems.map((blogItem: BlogItem) => (
-                            <Row>
-                                <Col xs="12"><h5><a href={ this.buildBlogUrl(blogItem) }>{ blogItem.title }</a></h5></Col>
-                                <Col xs="12"><p>{ blogItem.summary }</p></Col>
-                                <Col xs="12"><hr /></Col>
-                            </Row>
-                        )) }
-                    </Container>
+                    { blogItems.map((blogItem: BlogItem) => (
+                        <Row>
+                            <Col xs="12"><h5><a href={ this.buildBlogUrl(blogItem) }>{ blogItem.title }</a></h5></Col>
+                            <Col xs="12">
+                                <p>
+                                    <div className={ style.tagContainer }>
+                                    { blogItem.tags.map(tag => (
+                                        <Badge color="light" size="xs">{ tag.name }</Badge>
+                                    )) }
+                                    </div>
+                                    { blogItem.summary }
+                                </p>
+                            </Col>
+                        </Row>
+                    )) }
                 </div>
             </div>
+            </Container>
+
         )
     }
     

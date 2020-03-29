@@ -5,6 +5,7 @@ import WrappedComponent from '../dependencyInjection/wrappedComponent'
 import BlogRepositoryInterface from '../repositories/Blog/BlogRepositoryInterface'
 import CachedEntity from '../repositories/Blog/CachedEntity'
 import HttpApi from '../repositories/Blog/HttpApi'
+import AboutMe from '../routes/aboutMe'
 import Blog from '../routes/blog'
 import BlogPost, { BlogPostProps } from '../routes/blogPost'
 import Home, { HomeProps } from '../routes/home'
@@ -23,6 +24,7 @@ class AppContainer extends Container {
     public static readonly BLOG_REPOSITORY = 'BLOG_REPOSITORY'
     public static readonly HOME_COMPONENT = 'HOME_COMPONENT'
     public static readonly BLOG_COMPONENT = 'BLOG_COMPONENT'
+    public static readonly ABOUTME_COMPONENT = 'ABOUTME_COMPONENT'
     public static readonly BLOG_POST_COMPONENT = 'BLOG_POST_COMPONENT'
     public static readonly MARKDOWN_CODE_RENDERER = 'MARKDOWN_CODE_RENDERER'
     public static readonly HTML_SANITIZER_RENDERER = 'HTML_SANITIZER_RENDERER'
@@ -38,8 +40,8 @@ class AppContainer extends Container {
         this.set<{ [key: string]: string }>(AppContainer.CONFIG, () => {
             const config: { [key: string]: string } = {}
             CONFIG_KEYS.forEach((value: string) => {
-                config[value] = '/content/blog' // TODO: fetch config from somewhere
-                // config[value] = 'http://localhost:8090/blog/' // TODO: fetch config from somewhere
+                // config[value] = '/content/blog' // TODO: fetch config from somewhere
+                config[value] = 'http://localhost:8090/blog' // TODO: fetch config from somewhere
             })
 
             return config
@@ -95,6 +97,10 @@ class AppContainer extends Container {
                 dependencies: { blogService: c.get<BlogServiceInterface>(AppContainer.BLOG_SERVICE)}
             }
             return WrappedComponent(props)(Blog)
+        }))
+
+        this.set<ComponentClass>(AppContainer.ABOUTME_COMPONENT, ((c: ContainerInterface): ComponentClass => {
+            return AboutMe 
         }))
     }
 }

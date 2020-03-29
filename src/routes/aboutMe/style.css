@@ -13,12 +13,3 @@
 .postHeading h1 {
   color: #444f64;
 }
-
-.postContent {
-  background: transparent;
-}
-
-.tag-btn:hover {
-  background-color: #0062cc;
-  border-color: #005cbf;
-}
