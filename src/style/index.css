@@ -48,6 +48,7 @@ h3,
 }
 
 .navbar-brand {
+  color: #000 !important;
   font-weight: 800;
   font-size: 20px;
   text-align: center;
