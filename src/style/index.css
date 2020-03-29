@@ -57,9 +57,13 @@ h3,
 }
 
 .navbar-nav > li > a {
-  color: #000 !important;
+  color: #666 !important;
   height: 40px;
   margin: 5px;
+}
+
+.navbar-nav > li > a:hover {
+  color: #000 !important;
 }
 
 .navbar-nav > li > a:hover,
