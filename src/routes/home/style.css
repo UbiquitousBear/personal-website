@@ -37,3 +37,7 @@ img.profile-img {
   text-shadow: none;
   float: right !important;
 }
+
+.postIcon {
+  margin-right: 10px;
+}
