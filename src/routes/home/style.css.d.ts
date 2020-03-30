@@ -4,3 +4,4 @@ export const profileImg: string
 export const contentRealm: string
 export const postButton: string
 export const badgeNew: string
+export const postIcon: string
