@@ -43,13 +43,15 @@ class Home extends Component<HomeProps> {
 					<Row className={ style.contentRealm }>
 						<Col sm="12">
 							<h3>Latest Posts <Button color="light" href="/blog" size="sm">View All</Button></h3>
-							{ blogItems.map((blogItem: BlogItem) => (
-								<Button className={ style.postButton } block={true} href={ this.buildBlogUrl(blogItem) }>
-									<img src={blogItem.icon.data} height="20" width="20" />  • 
-									{ blogItem.title }
-									{ this.renderNewBadge(blogItem) }
-								</Button>
-							)) }
+							<Row>
+								{ blogItems.map((blogItem: BlogItem) => (
+									<Button className={ style.postButton } block={true} href={ this.buildBlogUrl(blogItem) }>
+										<img src={blogItem.icon.data} height="20" width={ Math.floor(blogItem.icon.widthRatio * 20) } /> • 
+										{ blogItem.title }
+										{ this.renderNewBadge(blogItem) }
+									</Button>
+								)) }
+							</Row>
 						</Col>
 					</Row>
 				</Container>
