@@ -12,7 +12,7 @@ describe('BlogItem entity', () => {
         const uri = 'bar/baz'
         const content = new BlogContent('path', 'ContentType/foo')
         const tags = [ new BlogTag('foo') ]
-        const icon = new BlogIcon('foo')
+        const icon = new BlogIcon(1, 'foo')
 
         // Act
         const entity = new BlogItem(title, publishDate, summary, uri, tags, content, icon)
