@@ -1,7 +1,6 @@
 import { Component, ComponentClass, h } from 'preact'
 import { Route, Router, RouterOnChangeArgs } from 'preact-router'
 import AppContainer from '../config/AppContainer'
-import CurriculumVitae from '../routes/curriculum-vitae'
 import Footer from './footer'
 import Header from './header'
 
@@ -20,12 +19,12 @@ export default class App extends Component {
 		return (
 			<div id="app">
 				<Header />
-				<Router onChange={this.handleRoute}>
-					<Route path="/" component={Home} />
-					<Route path="/blog/" component={Blog} />
-					<Route path="/blog/:uri" component={BlogPost} />
-					<Route path="/me" component={AboutMe} />
-				</Router>
+				<Router onChange={ this.handleRoute }>
+					<Route path="/" component={ Home } />
+					<Route path="/blog/" component={ Blog } />
+					<Route path="/blog/:uri" component={ BlogPost } />
+					<Route path="/me" component={ AboutMe } />
+				</Router>	
 				<Footer />
 			</div>
 		)

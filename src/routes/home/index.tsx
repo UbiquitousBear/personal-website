@@ -1,5 +1,5 @@
 import { Component, h } from 'preact'
-import { Badge, Button, Col, Container, Row } from 'reactstrap'
+import { Badge, Button, Card, CardText, CardBody, Col, Container, Row } from 'reactstrap'
 import BlogItem from '../../entities/BlogItem'
 import BlogServiceInterface from '../../services/Blog/BlogServiceInterface'
 import * as style from './style.css'
@@ -29,15 +29,24 @@ class Home extends Component<HomeProps> {
 		return (
 			<div className={ style.home }>
 				<Container>
-					<Row>
-						<Col xs="12">
+					<Row className={ style.firstRow }>
+						<Col sm="10">
 							<h1>Hi, I'm Shamil.</h1>
 						</Col>
-						<Col xs="10">
-							<p className="lead">I'm a London-based Site Reliability Engineer with an interest in software architecture and distributed systems. Having worked in both devops and software engineering roles, I harness my experience to build and consult on reliable, scalable systems.</p>
-						</Col>
-						<Col xs="2">
+						<Col sm="2">
 							<img src="/assets/img/qEGeFOOE_200x200.jpg" alt="Shamil's Photo" className={ style.profileImg } height="200px" width="200px"/>
+						</Col>
+					</Row>
+					<Row>
+						<Col sm="9">
+						<p className="lead">I'm a Site Reliability Engineer with an interest in software architecture and distributed systems. Having worked in both devops and software engineering roles, I harness my experience to build and consult on reliable, scalable systems.</p>
+						</Col>
+						<Col sm="3">
+							<Card className={ style.cardHome }>
+								<CardBody>
+									<CardText>SRE @ Goldman Sachs <Button color="light" href="/me" size="sm">...</Button></CardText>
+								</CardBody>
+							</Card>
 						</Col>
 					</Row>
 					<Row className={ style.contentRealm }>

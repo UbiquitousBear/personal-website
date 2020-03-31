@@ -2,7 +2,6 @@
   padding: 20px;
   min-height: 100%;
   width: 100%;
-  text-shadow: rgb(255, 255, 255) 0 1px 0;
 }
 
 img.profile-img {
@@ -23,7 +22,6 @@ img.profile-img {
   border: none !important;
   color: #000 !important;
   padding: 15px 10px !important;
-  text-shadow: none !important;
 }
 
 .post-button:hover {
@@ -40,4 +38,13 @@ img.profile-img {
 
 .post-icon {
   margin-right: 10px;
+}
+
+.card-home {
+  background: radial-gradient(circle at 20% 20%, #5183f5 25%, #4640ff 100%);
+  color: #ffffff;
+}
+
+.first-row {
+  margin-bottom: 10px;
 }
