@@ -9,7 +9,7 @@ const BlogContent = (blogItem: BlogItem, blogItemContent: string) => (
             <div class={style.postHeading}>
                 <h1>{ blogItem.title }</h1>
                 <p><h4>{ blogItem.tags.map(tag => (
-                    <Badge color="primary" className={ style.tagBtn }>{ tag.name }</Badge>
+                    <Badge color="primary" className={ style.tagBtn } key={ tag.name }>{ tag.name }</Badge>
                 )) }</h4></p>
             </div>
         </Container>

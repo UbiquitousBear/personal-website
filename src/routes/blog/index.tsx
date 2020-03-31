@@ -35,13 +35,13 @@ class Blog extends Component<BlogProps> {
                 </div>
                 <div class={ style.pageContent }>
                     { blogItems.map((blogItem: BlogItem) => (
-                        <Row>
+                        <Row key={blogItem.uri}>
                             <Col xs="12"><h5><a href={ this.buildBlogUrl(blogItem) }>{ blogItem.title }</a></h5></Col>
                             <Col xs="12">
                                 <p>
                                     <div className={ style.tagContainer }>
                                     { blogItem.tags.map(tag => (
-                                        <Badge color="light" size="xs">{ tag.name }</Badge>
+                                        <Badge color="light" size="xs" key={ tag.name }>{ tag.name }</Badge>
                                     )) }
                                     </div>
                                     { blogItem.summary }
