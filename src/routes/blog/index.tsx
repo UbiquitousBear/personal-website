@@ -57,7 +57,7 @@ class Blog extends Component<BlogProps> {
     }
     
     private getBlogItems() {
-		this.blogService.newestItems(3)
+		this.blogService.newestItems(100)
 		.then((blogItems: BlogItem[]) => this.setState({ blogItems }))
 	}
 
